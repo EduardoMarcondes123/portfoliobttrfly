@@ -1,4 +1,4 @@
-const modal = document.getElementById("modal-container");
+/*const modal = document.getElementById("modal-container");
 const modalImg = document.getElementById("img-ampliada");
 const captionText = document.getElementById("caption");
 const imagens = document.querySelectorAll(".gallery-item img");
@@ -44,7 +44,7 @@ themeToggle.onclick = () => {
         themeToggle.innerHTML = "🌙";
     }
 };*/
-
+/*
 const themeToggle = document.getElementById("theme-toggle");
 
 if (themeToggle) {
@@ -54,4 +54,21 @@ if (themeToggle) {
     };
 } else {
     console.log("ERRO: O script não encontrou nenhum botão com id='theme-toggle'");
+}*/
+
+
+
+console.log("O arquivo script.js foi carregado com sucesso!");
+
+// Tenta pegar o botão
+const botao = document.getElementById("theme-toggle");
+
+if (botao) {
+    console.log("Botão encontrado!");
+    botao.addEventListener("click", () => {
+        console.log("Clique detectado!");
+        document.body.classList.toggle("dark-mode");
+    });
+} else {
+    console.error("ERRO: O botão com id='theme-toggle' NÃO foi encontrado no HTML.");
 }
