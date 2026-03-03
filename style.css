@@ -1,4 +1,4 @@
-/* Reset e Base */
+/* Reset Básico */
 * {
     margin: 0;
     padding: 0;
@@ -6,14 +6,10 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     background-color: #f4f4f4;
     color: #333;
-    transition: background 0.4s, color 0.4s;
+    transition: 0.4s;
 }
 
 body.dark-mode {
@@ -23,32 +19,25 @@ body.dark-mode {
 
 /* --- SISTEMA DE ABAS --- */
 .aba {
-    display: none !important; /* Esconde por padrão */
+    display: none !important;
     width: 100%;
     min-height: 100vh;
 }
 
 .aba.ativa {
-    display: flex !important; /* Mostra como flex para manter o layout */
+    display: flex !important;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centraliza horizontalmente o conteúdo da aba */
 }
 
-/* Home Centralizada */
 #aba-home.ativa {
-    justify-content: center;
+    justify-content: center; /* Centraliza verticalmente na home */
     text-align: center;
-}
-
-/* Portfólio com respiro no topo */
-#aba-portfolio.ativa {
-    padding: 40px 20px;
-    justify-content: flex-start; /* Alinha o conteúdo no topo */
 }
 
 /* --- HERO E LINKS --- */
 .hero h1 {
-    font-size: 3.5rem; /* Aumentei um pouco */
+    font-size: 3.5rem;
     color: #FF69B4;
     margin-bottom: 0.5rem;
 }
@@ -56,48 +45,65 @@ body.dark-mode {
 .hero p {
     font-size: 1.5rem;
     color: #FA8072;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .links {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza horizontalmente */
-    justify-content: center; /* Centraliza verticalmente se necessário */
     gap: 15px;
     width: 100%;
-    max-width: 400px; /* Define um limite de largura para os botões não esticarem na tela toda */
-    margin: 0 auto; /* Centraliza o contêiner na página */
+    max-width: 320px; /* Largura ideal para mobile e desktop */
+    margin: 0 auto;   /* CENTRALIZAÇÃO CRÍTICA DO BLOCO */
 }
 
 .btn-menu, .links a {
     display: block;
-    width: 100%; /* Faz todos terem a mesma largura do contêiner pai */
+    width: 100%;
     text-decoration: none;
     color: #fff;
     background-color: #222;
-    padding: 18px 30px; /* Aumentei um pouco o preenchimento */
+    padding: 16px 30px;
     border-radius: 50px;
     transition: 0.3s;
     font-size: 1.1rem;
     border: none;
     cursor: pointer;
-    text-align: center; /* Garante o texto no meio do botão */
+    text-align: center;
 }
 
-.btn-menu { background-color: #FF69B4 !important; }
-.btn-contato { background-color: #222; }
+.btn-menu {
+    background-color: #FF69B4 !important;
+    font-weight: bold;
+}
 
 .btn-menu:hover, .links a:hover {
     transform: scale(1.05);
     filter: brightness(1.1);
 }
 
-/* --- GALERIA --- */
+/* --- PORTFÓLIO E GALERIA --- */
 .gallery-container {
+    width: 90%;
     max-width: 1100px;
-    width: 100%;
-    margin-top: 20px;
+    padding: 40px 0;
+}
+
+.btn-voltar {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: #FA8072;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.titulo-secao {
+    color: #FF69B4;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 .gallery {
@@ -107,35 +113,28 @@ body.dark-mode {
 
 @media (max-width: 768px) { .gallery { column-count: 1; } }
 
-.gallery-item { break-inside: avoid; margin-bottom: 1.5rem; }
+.gallery-item { margin-bottom: 1.5rem; break-inside: avoid; }
 .gallery-item img {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-/* --- MODAL E EXTRAS --- */
+/* --- MODAL --- */
 .modal {
-    display: none; position: fixed; z-index: 9999;
+    display: none; position: fixed; z-index: 10000;
     left: 0; top: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.95); align-items: center; justify-content: center;
 }
-.modal-content { max-width: 85%; max-height: 80%; border-radius: 8px; }
+.modal-content { max-width: 85%; max-height: 80%; border-radius: 10px; }
 .close-button { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
 .nav-button { position: absolute; top: 50%; color: white; background: none; border: none; font-size: 3rem; cursor: pointer; }
-.prev { left: 10px; } .next { right: 10px; }
+.prev { left: 15px; } .next { right: 15px; }
 
+/* Botão Tema */
 #theme-toggle {
     position: fixed; top: 20px; right: 20px;
-    padding: 10px 15px; border-radius: 50%; border: none;
-    cursor: pointer; z-index: 10001; background: #222; color: white;
+    background: #222; color: white; border: none;
+    padding: 10px 15px; border-radius: 50%; cursor: pointer; z-index: 10001;
 }
-
-.btn-voltar {
-    align-self: flex-start;
-    margin-bottom: 20px;
-    background: none; border: none; color: #FA8072;
-    font-size: 1.1rem; cursor: pointer;
-}
-
