@@ -62,22 +62,27 @@ body.dark-mode {
 .links {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente se necessário */
     gap: 15px;
     width: 100%;
-    max-width: 300px; /* Garante que os botões tenham um tamanho bom */
+    max-width: 400px; /* Define um limite de largura para os botões não esticarem na tela toda */
+    margin: 0 auto; /* Centraliza o contêiner na página */
 }
 
 .btn-menu, .links a {
+    display: block;
+    width: 100%; /* Faz todos terem a mesma largura do contêiner pai */
     text-decoration: none;
     color: #fff;
     background-color: #222;
-    padding: 15px 30px;
+    padding: 18px 30px; /* Aumentei um pouco o preenchimento */
     border-radius: 50px;
     transition: 0.3s;
     font-size: 1.1rem;
     border: none;
     cursor: pointer;
-    text-align: center;
+    text-align: center; /* Garante o texto no meio do botão */
 }
 
 .btn-menu { background-color: #FF69B4 !important; }
@@ -133,3 +138,4 @@ body.dark-mode {
     background: none; border: none; color: #FA8072;
     font-size: 1.1rem; cursor: pointer;
 }
+
