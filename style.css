@@ -167,13 +167,25 @@ body {
     user-select: none;
 }
 
-.nav-button:hover { background: rgba(255, 255, 255, 0.3); }
-
-.prev { left: 10px; }  /* Botão da esquerda */
-.next { right: 10px; } /* Botão da direita */
-
-/* No celular, os botões ficam um pouco menores */
-@media (max-width: 600px) {
-    .nav-button { padding: 10px; font-size: 20px; }
+/* Cola o botão 'prev' na esquerda */
+.prev {
+    left: 20px;
 }
+
+/* Cola o botão 'next' na direita */
+.next {
+    right: 20px;
+}
+
+/* Ajuste para celular: as setas não podem cobrir a foto toda */
+@media (max-width: 600px) {
+    .nav-button {
+        font-size: 30px;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5); /* Fundo mais escuro no celular */
+    }
+    .prev { left: 5px; }
+    .next { right: 5px; }
+}
+
 
