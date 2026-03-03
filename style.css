@@ -87,3 +87,13 @@ body {
         column-count: 3;
     }
 }
+
+.gallery-item img {
+    transition: transform 0.5s ease, filter 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-item img:hover {
+    transform: scale(1.05); /* Aumenta levemente a imagem */
+    filter: brightness(1.1); /* Dá um leve brilho */
+}
