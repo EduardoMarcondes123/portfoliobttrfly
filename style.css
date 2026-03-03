@@ -49,6 +49,10 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem 4rem 2rem;
+    background-color: #242424; /* Um tom de cinza levemente mais claro que o body */
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 .gallery {
@@ -189,6 +193,7 @@ body {
     .prev { left: 5px; }
     .next { right: 5px; }
 }
+
 
 
 
