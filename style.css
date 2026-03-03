@@ -158,10 +158,12 @@ body {
     background: rgba(255, 255, 255, 0.1);
     color: white;
     border: none;
-    font-size: 30px;
+    font-size: 50px;
     padding: 20px;
     cursor: pointer;
+    z-index: 2001
     transition: 0.3s;
+    border-radius: 5px;
     user-select: none;
 }
 
@@ -174,3 +176,4 @@ body {
 @media (max-width: 600px) {
     .nav-button { padding: 10px; font-size: 20px; }
 }
+
