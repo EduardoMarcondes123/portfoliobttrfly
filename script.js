@@ -57,18 +57,27 @@ if (themeToggle) {
 }*/
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("O DOM foi totalmente carregado!");
 
-console.log("O arquivo script.js foi carregado com sucesso!");
+    const themeToggle = document.getElementById("theme-toggle");
+    const body = document.body;
 
-// Tenta pegar o botão
-const botao = document.getElementById("theme-toggle");
-
-if (botao) {
-    console.log("Botão encontrado!");
-    botao.addEventListener("click", () => {
-        console.log("Clique detectado!");
-        document.body.classList.toggle("dark-mode");
-    });
-} else {
-    console.error("ERRO: O botão com id='theme-toggle' NÃO foi encontrado no HTML.");
-}
+    if (themeToggle) {
+        console.log("Botão encontrado com sucesso!");
+        
+        themeToggle.addEventListener("click", function() {
+            console.log("Clique detectado no botão!");
+            body.classList.toggle("dark-mode");
+            
+            // Troca o ícone
+            if (body.classList.contains("dark-mode")) {
+                themeToggle.innerHTML = "☀️";
+            } else {
+                themeToggle.innerHTML = "🌙";
+            }
+        });
+    } else {
+        console.error("ERRO CRÍTICO: O botão com id='theme-toggle' ainda não foi encontrado.");
+    }
+});
