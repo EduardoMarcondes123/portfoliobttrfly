@@ -1,0 +1,89 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fafafa;
+    color: #333;
+}
+
+/* Estilo do Cabeçalho */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.links a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #222;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: background 0.3s;
+}
+
+.links a:hover {
+    background-color: #555;
+}
+
+/* O Segredo da Galeria Masonry */
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem 2rem;
+}
+
+.gallery {
+    /* Começa com 1 coluna para celular */
+    column-count: 1;
+    column-gap: 1.5rem;
+}
+
+/* Evita que a imagem seja cortada no meio de uma coluna */
+.gallery-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+}
+
+.gallery-item img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Efeito legal ao passar o mouse */
+.gallery-item img:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+/* Responsividade: Telas médias (Tablets) = 2 colunas */
+@media (min-width: 600px) {
+    .gallery {
+        column-count: 2;
+    }
+}
+
+/* Responsividade: Telas grandes (Monitores) = 3 colunas */
+@media (min-width: 900px) {
+    .gallery {
+        column-count: 3;
+    }
+}
