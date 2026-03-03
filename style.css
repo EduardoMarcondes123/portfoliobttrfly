@@ -217,18 +217,16 @@ body {
     transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* Ajuste das cores dos títulos no modo escuro */
-body.dark-mode .hero h1 { color: #FF69B4; } /* Rosa */
-body.dark-mode .hero p { color: #FA8072; }  /* Salmão */
-
-
-/* Configuração do Tema Escuro (Dark Mode) */
-body.dark-mode {
-    background-color: #1a1a1a; /* O cinza escuro que você queria */
-    color: #f0f0f0;
+/* Forçando a prioridade máxima para o modo escuro */
+html body.dark-mode {
+    background-color: #1a1a1a !important;
+    color: #f0f0f0 !important;
 }
 
-
-
-
-
+/* Garante que os títulos também mudem quando o corpo tiver a classe */
+body.dark-mode .hero h1 { 
+    color: #FF69B4 !important; 
+}
+body.dark-mode .hero p { 
+    color: #FA8072 !important; 
+}
