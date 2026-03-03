@@ -17,51 +17,27 @@
         </div>
     </header>
 
-    <main class="gallery-container">
+   <main class="gallery-container">
         <div class="gallery">
-            <div class="gallery-item">
-                <img src="img/arte1.jpeg" alt="Descrição da arte 1" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="img/arte2.jpeg" alt="Descrição da arte 2" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="img/arte3.jpeg" alt="Descrição da arte 3" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="img/arte4.jpeg" alt="Descrição da arte 4" loading="lazy">
-            </div>
+            <div class="gallery-item"><img src="img/arte1.jpeg" alt="Descrição da arte 1" loading="lazy"></div>
+            <div class="gallery-item"><img src="img/arte2.jpeg" alt="Descrição da arte 2" loading="lazy"></div>
+            <div class="gallery-item"><img src="img/arte3.jpeg" alt="Descrição da arte 3" loading="lazy"></div>
+            <div class="gallery-item"><img src="img/arte4.jpeg" alt="Descrição da arte 4" loading="lazy"></div>
         </div>
     </main>
 
+    <div id="modal-container" class="modal">
+        <span class="close-button">&times;</span>
+        <button class="nav-button prev" onclick="mudarImagem(-1)">&#10094;</button>
+        <img class="modal-content" id="img-ampliada">
+        <button class="nav-button next" onclick="mudarImagem(1)">&#10095;</button>
+        <div id="caption"></div>
+    </div>
 
-<meta property="og:description" content="Confira as ilustrações e artes visuais de [Butterfly Drawing].">
-<meta property="og:image" content="img/capa-portfolio.jpg">
+    <button id="backToTop">↑</button>
 
-<div id="modal-container" class="modal">
-    <span class="close-button">&times;</span>
-    
-    <img class="modal-content" id="img-ampliada">
-    
-    <button class="nav-button prev" onclick="mudarImagem(-1)">&#10094;</button>
-    
-    <img class="modal-content" id="img-ampliada">
-    
-    <button class="nav-button next" onclick="mudarImagem(1)">&#10095;</button>
-    
-    <div id="caption"></div>
-</div>
-<meta property="og:title" content="Butterfly Drawing | Portfólio">
-<script src="script.js"></script>
+    <meta property="og:title" content="Butterfly Drawing | Portfólio">
+    <meta property="og:description" content="Confira as ilustrações e artes visuais de Butterfly Drawing.">
+    <script src="script.js"></script>
 </body>
-<button id="backToTop">↑</button>
-<div class="theme-switch-wrapper">
-    <button id="theme-toggle">🌙</button>
-</div>
 </html>
-
-
-
-
-
-
