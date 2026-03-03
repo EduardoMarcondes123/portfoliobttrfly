@@ -1,35 +1,32 @@
-// Seleciona os elementos do Modal
 const modal = document.getElementById("modal-container");
 const modalImg = document.getElementById("img-ampliada");
 const captionText = document.getElementById("caption");
-const closeBtn = document.querySelector(".close-button");
-
-// Seleciona todas as imagens da galeria
 const imagens = document.querySelectorAll(".gallery-item img");
+let indiceAtual = 0; // Guarda a posição da imagem aberta
 
-imagens.forEach(img => {
+// Função para abrir o modal
+imagens.forEach((img, index) => {
     img.onclick = function() {
-        modal.style.display = "flex"; // Mostra o modal
-        modalImg.src = this.src;      // Copia o caminho da imagem
-        captionText.innerHTML = this.alt; // Usa o 'alt' como legenda
+        modal.style.display = "flex";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+        indiceAtual = index; // Salva qual imagem você clicou
     }
 });
 
-// Fecha o modal ao clicar no X
-closeBtn.onclick = function() {
-    modal.style.display = "none";
+// Função para mudar a imagem (Próximo ou Anterior)
+function mudarImagem(direcao) {
+    indiceAtual += direcao;
+
+    // Se chegar no fim, volta pro começo
+    if (indiceAtual >= imagens.length) { indiceAtual = 0; }
+    // Se for antes da primeira, vai pra última
+    if (indiceAtual < 0) { indiceAtual = imagens.length - 1; }
+
+    modalImg.src = imagens[indiceAtual].src;
+    captionText.innerHTML = imagens[indiceAtual].alt;
 }
 
-// Fecha o modal ao clicar fora da imagem
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-const topBtn = document.getElementById("backToTop");
-window.onscroll = () => {
-    // Se descer mais de 300px, o botão aparece
-    topBtn.style.display = window.scrollY > 300 ? "block" : "none";
-};
-topBtn.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
+// Fechar modal
+document.querySelector(".close-button").onclick = () => modal.style.display = "none";
+window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
