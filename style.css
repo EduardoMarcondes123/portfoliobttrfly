@@ -20,11 +20,12 @@ body {
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
+    color: #FF69B4;
 }
 
 .hero p {
     font-size: 1.2rem;
-    color: #666;
+    color: #FA8072;
     margin-bottom: 1.5rem;
 }
 
@@ -187,5 +188,6 @@ body {
     .prev { left: 5px; }
     .next { right: 5px; }
 }
+
 
 
