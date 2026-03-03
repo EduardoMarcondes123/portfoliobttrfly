@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio de Ilustração</title>
+    <title>Butterfly Drawing | Home</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,21 +15,23 @@
             <p>Ilustradora & Artista Visual</p>
             <div class="links">
                 <button onclick="abrirAba('portfolio')" class="btn-menu">Ver Portfólio</button>
-                <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contato</a>
-                <a href="https://instagram.com/bttrfly_drawing" target="_blank">Instagram</a>
+                <a href="mailto:bttrflydrawing2022@gmail.com" class="btn-contato">Entrar em contato</a>
+                <a href="https://instagram.com/bttrfly_drawing" target="_blank" class="btn-contato">Instagram</a>
             </div>
         </header>
     </div>
 
     <div id="aba-portfolio" class="aba">
-        <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+        <div class="nav-interna">
+            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar para Home</button>
+        </div>
         <h2 class="titulo-secao">Meu Portfólio</h2>
         <main class="gallery-container">
             <div class="gallery">
-                <div class="gallery-item"><img src="img/arte1.jpeg" alt="Descrição da arte 1" loading="lazy"></div>
-                <div class="gallery-item"><img src="img/arte2.jpeg" alt="Descrição da arte 2" loading="lazy"></div>
-                <div class="gallery-item"><img src="img/arte3.jpeg" alt="Descrição da arte 3" loading="lazy"></div>
-                <div class="gallery-item"><img src="img/arte4.jpeg" alt="Descrição da arte 4" loading="lazy"></div>
+                <div class="gallery-item"><img src="img/arte1.jpeg" alt="Arte 1"></div>
+                <div class="gallery-item"><img src="img/arte2.jpeg" alt="Arte 2"></div>
+                <div class="gallery-item"><img src="img/arte3.jpeg" alt="Arte 3"></div>
+                <div class="gallery-item"><img src="img/arte4.jpeg" alt="Arte 4"></div>
             </div>
         </main>
     </div>
@@ -42,7 +44,6 @@
         <div id="caption"></div>
     </div>
 
-    <button id="backToTop">↑</button>
     <script src="script.js"></script>
 </body>
 </html>
