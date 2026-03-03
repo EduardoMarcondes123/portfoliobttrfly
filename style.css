@@ -6,11 +6,11 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
+/*body {
     background-color: #f4f4f4;
     color: #f0f0f0;
     transion: background 0.5s ease;
-}
+}*/
 
 /* Estilo do Cabeçalho */
 .hero {
@@ -226,3 +226,4 @@ body {
     color: #333;
     transition: background 0.4s ease, color 0.4s ease;
 }
+
