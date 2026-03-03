@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butterfly Drawing | Home</title>
+    <title>Butterfly Drawing</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="theme-toggle" style="position: fixed; top: 10px; right: 10px; z-index: 9999;">🌙</button>
+    <button id="theme-toggle">🌙</button>
 
     <div id="aba-home" class="aba ativa">
         <header class="hero">
@@ -16,24 +16,22 @@
             <div class="links">
                 <button onclick="abrirAba('portfolio')" class="btn-menu">Ver Portfólio</button>
                 <a href="mailto:bttrflydrawing2022@gmail.com" class="btn-contato">Entrar em contato</a>
-                <a href="https://instagram.com/bttrfly_drawing" target="_blank" class="btn-contato">Instagram</a>
+                <a href="https://instagram.com/bttrfly_drawing" target="_blank">Instagram</a>
             </div>
         </header>
     </div>
 
     <div id="aba-portfolio" class="aba">
-        <div class="nav-interna">
-            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar para Home</button>
-        </div>
-        <h2 class="titulo-secao">Meu Portfólio</h2>
-        <main class="gallery-container">
+        <div class="gallery-container">
+            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+            <h2 style="color: #FF69B4; margin-bottom: 20px;">Meu Portfólio</h2>
             <div class="gallery">
                 <div class="gallery-item"><img src="img/arte1.jpeg" alt="Arte 1"></div>
                 <div class="gallery-item"><img src="img/arte2.jpeg" alt="Arte 2"></div>
                 <div class="gallery-item"><img src="img/arte3.jpeg" alt="Arte 3"></div>
                 <div class="gallery-item"><img src="img/arte4.jpeg" alt="Arte 4"></div>
             </div>
-        </main>
+        </div>
     </div>
 
     <div id="modal-container" class="modal">
