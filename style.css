@@ -97,3 +97,10 @@ body {
     transform: scale(1.05); /* Aumenta levemente a imagem */
     filter: brightness(1.1); /* Dá um leve brilho */
 }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
