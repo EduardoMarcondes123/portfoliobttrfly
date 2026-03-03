@@ -167,7 +167,7 @@
     font-size: 50px;
     padding: 20px;
     cursor: pointer;
-    z-index: 2001
+    z-index: 2001; /* Adicionei o ponto e vírgula aqui */
     transition: 0.3s;
     border-radius: 5px;
     user-select: none;
@@ -230,3 +230,4 @@ body.dark-mode .hero h1 {
 body.dark-mode .hero p { 
     color: #FA8072 !important; 
 }
+
