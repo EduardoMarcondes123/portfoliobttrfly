@@ -1,12 +1,18 @@
 // FUNÇÃO PARA TROCAR DE ABA
 function abrirAba(nomeAba) {
-    // Esconde todas as abas
-    document.querySelectorAll('.aba').forEach(aba => {
+    // 1. Pega todas as abas e esconde
+    const todasAbas = document.querySelectorAll('.aba');
+    todasAbas.forEach(aba => {
         aba.classList.remove('ativa');
     });
-    // Mostra apenas a aba clicada
-    document.getElementById('aba-' + nomeAba).classList.add('ativa');
-    // Rola para o topo automaticamente
+
+    // 2. Mostra a aba que você quer
+    const abaAlvo = document.getElementById('aba-' + nomeAba);
+    if (abaAlvo) {
+        abaAlvo.classList.add('ativa');
+    }
+    
+    // 3. Joga a tela pro topo
     window.scrollTo(0, 0);
 }
 
