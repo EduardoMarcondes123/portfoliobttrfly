@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #2e3c50;
+    background-color: #f4f4f4;
     color: #f0f0f0;
     transion: background 0.5s ease;
 }
@@ -189,6 +189,7 @@ body {
     .prev { left: 5px; }
     .next { right: 5px; }
 }
+
 
 
 
