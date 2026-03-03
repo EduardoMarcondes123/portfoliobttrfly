@@ -151,3 +151,26 @@ body {
     to {transform:scale(1)}
 }
 
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    user-select: none;
+}
+
+.nav-button:hover { background: rgba(255, 255, 255, 0.3); }
+
+.prev { left: 10px; }  /* Botão da esquerda */
+.next { right: 10px; } /* Botão da direita */
+
+/* No celular, os botões ficam um pouco menores */
+@media (max-width: 600px) {
+    .nav-button { padding: 10px; font-size: 20px; }
+}
