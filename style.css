@@ -1,4 +1,4 @@
-/* Reset básico */
+/* Reset e Base */
 * {
     margin: 0;
     padding: 0;
@@ -6,228 +6,136 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/*body {
-    background-color: #f4f4f4;
-    color: #f0f0f0;
-    transion: background 0.5s ease;
-}*/
+html {
+    scroll-behavior: smooth;
+}
 
-/* Estilo do Cabeçalho */
-.hero {
-    text-align: center;
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    transition: background 0.4s, color 0.4s;
+}
+
+/* Modo Escuro */
+body.dark-mode {
+    background-color: #1a1a1a !important;
+    color: #f0f0f0 !important;
+}
+
+/* Seções */
+.page-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 4rem 2rem;
 }
 
+/* Hero / Home */
 .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 3rem;
     color: #FF69B4;
+    margin-bottom: 0.5rem;
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: #FA8072;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Botões */
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
 }
 
 .links a {
     text-decoration: none;
     color: #fff;
     background-color: #222;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin: 0 5px;
-    transition: background 0.3s;
+    padding: 12px 30px;
+    border-radius: 50px;
+    transition: 0.3s;
+    min-width: 200px;
+    text-align: center;
 }
+
+.btn-destaque { background-color: #FF69B4 !important; }
+.btn-loja { background-color: #FA8072 !important; }
 
 .links a:hover {
-    background-color: #555;
+    transform: scale(1.05);
+    filter: brightness(1.1);
 }
 
-/* O Segredo da Galeria Masonry */
+.social-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Galeria */
 .gallery-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem 4rem 2rem;
-    background-color: #242424; /* Um tom de cinza levemente mais claro que o body */
-    border-radius: 15px;
-    padding: 20px;
-    margin-top: 20px;
+    max-width: 1100px;
+    width: 100%;
 }
 
 .gallery {
-    /* Começa com 1 coluna para celular */
-    column-count: 1;
+    column-count: 2;
     column-gap: 1.5rem;
 }
 
-/* Evita que a imagem seja cortada no meio de uma coluna */
-.gallery-item {
-    break-inside: avoid;
-    margin-bottom: 1.5rem;
-}
+@media (max-width: 768px) { .gallery { column-count: 1; } }
+
+.gallery-item { break-inside: avoid; margin-bottom: 1.5rem; }
 
 .gallery-item img {
     width: 100%;
-    display: block;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-/* Efeito legal ao passar o mouse */
-.gallery-item img:hover {
-    transform: scale(1.02);
+    border-radius: 10px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Responsividade: Telas médias (Tablets) = 2 colunas */
-@media (min-width: 600px) {
-    .gallery {
-        column-count: 2;
-    }
-}
+.gallery-item img:hover { transform: translateY(-5px); }
 
-/* Responsividade: Telas grandes (Monitores) = 3 colunas */
-@media (min-width: 900px) {
-    .gallery {
-        column-count: 3;
-    }
-}
-
-.gallery-item img {
-    transition: transform 0.5s ease, filter 0.3s ease;
-    cursor: pointer;
-}
-
-.gallery-item img:hover {
-    transform: scale(1.05); /* Aumenta levemente a imagem */
-    filter: brightness(1.1); /* Dá um leve brilho */
-}
-
-/*.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}*/
-
-/* Estilo do fundo do Modal */
+/* Modal */
 .modal {
-    display: none; /* Escondido por padrão */
+    display: none;
     position: fixed;
-    z-index: 2000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.9); /* Fundo preto semi-transparente */
-    flex-direction: column;
+    z-index: 9999;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
     align-items: center;
     justify-content: center;
-    animate: zoom 0.3s;
 }
 
-/* A imagem dentro do modal */
-.modal-content {
-    max-width: 80%;
-    max-height: 80%;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(255,255,255,0.2);
-}
-
-/* Legenda da imagem */
-#caption {
-    color: white;
-    margin-top: 15px;
-    font-family: sans-serif;
-    font-size: 1.2rem;
-}
-
-/* Botão de fechar (X) */
-.close-button {
-    position: absolute;
-    top: 20px; right: 35px;
-    color: white;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Animação suave */
-@keyframes zoom {
-    from {transform:scale(0)} 
-    to {transform:scale(1)}
-}
+.modal-content { max-width: 85%; max-height: 80%; border-radius: 8px; }
 
 .nav-button {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: none;
-    font-size: 50px;
-    padding: 20px;
-    cursor: pointer;
-    z-index: 2001; /* Adicionei o ponto e vírgula aqui */
-    transition: 0.3s;
-    border-radius: 5px;
-    user-select: none;
+    top: 50%; transform: translateY(-50%);
+    background: none; color: white; border: none; font-size: 3rem;
+    cursor: pointer; padding: 20px; z-index: 10000;
 }
 
-/* Cola o botão 'prev' na esquerda */
-.prev {
-    left: 20px;
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.close-button {
+    position: absolute; top: 20px; right: 30px;
+    color: white; font-size: 3rem; cursor: pointer;
 }
 
-/* Cola o botão 'next' na direita */
-.next {
-    right: 20px;
-}
-
-/* Ajuste para celular: as setas não podem cobrir a foto toda */
-@media (max-width: 600px) {
-    .nav-button {
-        font-size: 30px;
-        padding: 10px;
-        background-color: rgba(0, 0, 0, 0.5); /* Fundo mais escuro no celular */
-    }
-    .prev { left: 5px; }
-    .next { right: 5px; }
-}
-
-/* Estilo do Botão Flutuante */
+/* Botão Dark Mode */
 #theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    background: #222;
-    color: white;
-    font-size: 1.2rem;
-    z-index: 3000;
-    transition: 0.3s;
+    position: fixed; top: 20px; right: 20px;
+    padding: 10px 15px; border-radius: 50%; border: none;
+    cursor: pointer; z-index: 10001; background: #222; color: white;
 }
 
-/* Tema Claro (Padrão) */
-body {
-    background-color: #f4f4f4; /* Cinza bem clarinho */
-    color: #333;
-    transition: background 0.4s ease, color 0.4s ease;
-}
-
-/* Forçando a prioridade máxima para o modo escuro */
-html body.dark-mode {
-    background-color: #1a1a1a !important;
-    color: #f0f0f0 !important;
-}
-
-/* Garante que os títulos também mudem quando o corpo tiver a classe */
-body.dark-mode .hero h1 { 
-    color: #FF69B4 !important; 
-}
-body.dark-mode .hero p { 
-    color: #FA8072 !important; 
-}
-
+.section-title { font-size: 2.5rem; color: #FF69B4; margin-bottom: 2rem; }
+.back-link { margin-top: 2rem; color: #FA8072; text-decoration: none; }
