@@ -8,23 +8,31 @@
 </head>
 <body>
     <button id="theme-toggle" style="position: fixed; top: 10px; right: 10px; z-index: 9999;">🌙</button>
-    <header class="hero">
-        <h1>Butterfly Drawing</h1>
-        <p>Ilustradora & Artista Visual</p>
-        <div class="links">
-            <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contato</a>
-            <a href="https://instagram.com/bttrfly_drawing" target="_blank">Instagram</a>
-        </div>
-    </header>
 
-   <main class="gallery-container">
-        <div class="gallery">
-            <div class="gallery-item"><img src="img/arte1.jpeg" alt="Descrição da arte 1" loading="lazy"></div>
-            <div class="gallery-item"><img src="img/arte2.jpeg" alt="Descrição da arte 2" loading="lazy"></div>
-            <div class="gallery-item"><img src="img/arte3.jpeg" alt="Descrição da arte 3" loading="lazy"></div>
-            <div class="gallery-item"><img src="img/arte4.jpeg" alt="Descrição da arte 4" loading="lazy"></div>
-        </div>
-    </main>
+    <div id="aba-home" class="aba ativa">
+        <header class="hero">
+            <h1>Butterfly Drawing</h1>
+            <p>Ilustradora & Artista Visual</p>
+            <div class="links">
+                <button onclick="abrirAba('portfolio')" class="btn-menu">Ver Portfólio</button>
+                <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contato</a>
+                <a href="https://instagram.com/bttrfly_drawing" target="_blank">Instagram</a>
+            </div>
+        </header>
+    </div>
+
+    <div id="aba-portfolio" class="aba">
+        <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+        <h2 class="titulo-secao">Meu Portfólio</h2>
+        <main class="gallery-container">
+            <div class="gallery">
+                <div class="gallery-item"><img src="img/arte1.jpeg" alt="Descrição da arte 1" loading="lazy"></div>
+                <div class="gallery-item"><img src="img/arte2.jpeg" alt="Descrição da arte 2" loading="lazy"></div>
+                <div class="gallery-item"><img src="img/arte3.jpeg" alt="Descrição da arte 3" loading="lazy"></div>
+                <div class="gallery-item"><img src="img/arte4.jpeg" alt="Descrição da arte 4" loading="lazy"></div>
+            </div>
+        </main>
+    </div>
 
     <div id="modal-container" class="modal">
         <span class="close-button">&times;</span>
@@ -35,9 +43,6 @@
     </div>
 
     <button id="backToTop">↑</button>
-
-    <meta property="og:title" content="Butterfly Drawing | Portfólio">
-    <meta property="og:description" content="Confira as ilustrações e artes visuais de Butterfly Drawing.">
     <script src="script.js"></script>
 </body>
 </html>
