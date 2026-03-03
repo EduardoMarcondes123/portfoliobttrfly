@@ -30,3 +30,17 @@ function mudarImagem(direcao) {
 // Fechar modal
 document.querySelector(".close-button").onclick = () => modal.style.display = "none";
 window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
+
+const themeToggle = document.getElementById("theme-toggle");
+const body = document.body;
+
+themeToggle.onclick = () => {
+    body.classList.toggle("dark-mode"); // Liga/Desliga o modo escuro
+    
+    // Troca o ícone do botão
+    if (body.classList.contains("dark-mode")) {
+        themeToggle.innerHTML = "☀️";
+    } else {
+        themeToggle.innerHTML = "🌙";
+    }
+};
