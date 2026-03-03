@@ -26,3 +26,10 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+const topBtn = document.getElementById("backToTop");
+window.onscroll = () => {
+    // Se descer mais de 300px, o botão aparece
+    topBtn.style.display = window.scrollY > 300 ? "block" : "none";
+};
+topBtn.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
