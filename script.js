@@ -33,7 +33,7 @@ window.onclick = (event) => { if (event.target == modal) modal.style.display = "
 
 const themeToggle = document.getElementById("theme-toggle");
 const body = document.body;
-
+/*
 themeToggle.onclick = () => {
     body.classList.toggle("dark-mode"); // Liga/Desliga o modo escuro
     
@@ -43,4 +43,15 @@ themeToggle.onclick = () => {
     } else {
         themeToggle.innerHTML = "🌙";
     }
-};
+};*/
+
+const themeToggle = document.getElementById("theme-toggle");
+
+if (themeToggle) {
+    themeToggle.onclick = () => {
+        alert("O botão foi clicado e o script está funcionando!");
+        document.body.classList.toggle("dark-mode");
+    };
+} else {
+    console.log("ERRO: O script não encontrou nenhum botão com id='theme-toggle'");
+}
