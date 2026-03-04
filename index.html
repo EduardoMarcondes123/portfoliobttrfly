@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,8 @@
             <div class="links">
                 <button onclick="abrirAba('portfolio')" class="btn-menu">Ver Portfólio</button>
                 <button onclick="abrirAba('loja')" class="btn-loja">Lojinha de Bijus</button>
-                <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contato</a>
+                <button onclick="abrirAba('sobre')" class="btn-sobre">Sobre Mim</button>
+                <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contacto</a>
                 <a href="https://instagram.com/bttrfly_drawing" target="_blank">Instagram</a>
             </div>
         </header>
@@ -30,7 +31,7 @@
     <div id="aba-portfolio" class="aba">
         <div class="container-aba">
             <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
-            <h2 class="titulo-secao">Meu Portfólio</h2>
+            <h2 class="titulo-secao">O Meu Portfólio</h2>
             <main class="gallery-container">
                 <div class="gallery">
                     <div class="gallery-item"><img src="img/arte1.jpeg" alt="Arte 1"></div>
@@ -63,6 +64,22 @@
         </div>
     </div>
 
+    <div id="aba-sobre" class="aba">
+        <div class="container-aba">
+            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+            <h2 class="titulo-secao">Sobre Mim</h2>
+            <div class="sobre-container">
+                <img src="img/perfil.jpeg" alt="Minha Foto" class="foto-perfil">
+                <div class="sobre-texto">
+                    <h3>Olá! Bem-vinda(o) ao meu universo! 🦋</h3>
+                    <p>Sou a artista por trás da Butterfly Drawing. Sou uma ilustradora e artista visual apaixonada por transformar sentimentos e ideias em arte.</p>
+                    <p>O meu trabalho é inspirado na natureza, nas emoções e na delicadeza das formas. Além das ilustrações digitais e tradicionais, também crio bijuterias artesanais exclusivas com muito carinho, que pode encontrar na minha lojinha.</p>
+                    <p>Obrigada por apoiar a arte independente!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-container" class="modal">
         <span class="close-button">&times;</span>
         <button class="nav-button prev" onclick="mudarImagem(-1)">&lt;</button>
@@ -70,6 +87,10 @@
         <button class="nav-button next" onclick="mudarImagem(1)">&gt;</button>
         <div id="caption"></div>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Butterfly Drawing. Todos os direitos reservados.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
