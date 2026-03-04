@@ -26,8 +26,8 @@ body.dark-mode {
 #aba-home.ativa { justify-content: center; text-align: center; }
 
 /* --- HOME E BOTÕES --- */
-.hero h1 { font-size: 3.5rem; color: #FF69B4; margin-bottom: 0.5rem; }
-.hero p { font-size: 1.5rem; color: #FA8072; margin-bottom: 2.5rem; }
+.hero h1 { font-size: 3.5rem; color: #fd6492; margin-bottom: 0.5rem; }
+.hero p { font-size: 1.5rem; color: #ffb7cd; margin-bottom: 2.5rem; }
 .links { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 320px; margin: 0 auto; }
 
 .btn-menu, .btn-loja, .btn-sobre, .links a {
