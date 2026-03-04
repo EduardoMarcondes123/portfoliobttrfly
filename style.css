@@ -5,7 +5,6 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Alteração: Flexbox no body para o rodapé ficar sempre em baixo */
 body {
     background-color: #f4f4f4;
     color: #333;
@@ -22,7 +21,6 @@ body.dark-mode {
 }
 
 /* --- ABAS --- */
-/* Alteração: Removido o min-height fixo e adicionado flex: 1 */
 .aba { display: none !important; width: 100%; flex: 1; }
 .aba.ativa { display: flex !important; flex-direction: column; align-items: center; }
 #aba-home.ativa { justify-content: center; text-align: center; }
@@ -31,16 +29,32 @@ body.dark-mode {
 .hero h1 { font-size: 3.5rem; color: #FF69B4; margin-bottom: 0.5rem; }
 .hero p { font-size: 1.5rem; color: #FA8072; margin-bottom: 2.5rem; }
 .links { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 320px; margin: 0 auto; }
+
 .btn-menu, .btn-loja, .btn-sobre, .links a {
     display: block; width: 100%; text-decoration: none; color: #fff !important;
     padding: 16px 0; border-radius: 50px; border: none; cursor: pointer;
     text-align: center; font-size: 1.1rem; transition: 0.3s; background-color: #222;
 }
+
 .btn-menu { background-color: #FF69B4 !important; }
 .btn-loja { background-color: #FA8072 !important; }
-.btn-sobre { background-color: #9370DB !important; } /* Cor roxa/lilás para destacar */
 
-.btn-menu:hover, .btn-loja:hover, .btn-sobre:hover, .links a:hover {
+/* BOTÃO SOBRE MIM COM EFEITO MÁGICO */
+.btn-sobre { 
+    background-color: #9370DB !important; 
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 0 10px rgba(147, 112, 219, 0.4);
+}
+.btn-sobre::before {
+    content: ''; position: absolute; top: 50%; left: 50%; width: 150%; height: 150%;
+    background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+    transform: translate(-50%, -50%) scale(0); transition: transform 0.6s ease-out; opacity: 0;
+}
+.btn-sobre:hover::before { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.btn-sobre:hover { background-color: #bfa8ff !important; box-shadow: 0 0 20px rgba(147, 112, 219, 0.8); }
+
+.btn-menu:hover, .btn-loja:hover, .links a:hover, .btn-sobre:hover {
     transform: scale(1.05); filter: brightness(1.1);
 }
 
@@ -66,7 +80,7 @@ body.dark-mode .produto-card { background: #2a2a2a; }
 .gallery-item img { width: 100%; display: block; transition: transform 0.5s ease; }
 .gallery-item:hover img { transform: scale(1.08); }
 
-/* --- SOBRE MIM (NOVO) --- */
+/* --- SOBRE MIM --- */
 .sobre-container {
     display: flex; flex-direction: column; align-items: center; gap: 30px;
     background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -83,7 +97,6 @@ body.dark-mode .sobre-container { background: #2a2a2a; }
 .sobre-texto p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; color: #555; }
 body.dark-mode .sobre-texto p { color: #ddd; }
 
-/* Responsividade do Sobre Mim para ecrãs maiores */
 @media (min-width: 768px) {
     .sobre-container { flex-direction: row; text-align: left; }
     .sobre-texto { text-align: left; }
@@ -111,7 +124,6 @@ body.dark-mode .sobre-texto p { color: #ddd; }
 .btn-voltar { background: none; border: none; color: #FA8072; font-size: 1.1rem; cursor: pointer; margin-bottom: 20px; align-self: flex-start; }
 .titulo-secao { font-size: 2.5rem; color: #FF69B4; margin-bottom: 20px; text-align: center; }
 
-/* RODAPÉ (NOVO) */
 footer {
     width: 100%; background-color: #222; color: #fff;
     text-align: center; padding: 20px 0; margin-top: auto; font-size: 0.9rem;
