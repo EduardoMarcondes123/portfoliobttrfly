@@ -41,7 +41,7 @@ body.dark-mode {
 
 /* BOTÃO SOBRE MIM COM EFEITO MÁGICO */
 .btn-sobre { 
-    background-color: #9370DB !important; 
+    background-color: #feeef1 !important; 
     display: flex; align-items: center; justify-content: center; gap: 8px;
     position: relative; overflow: hidden;
     box-shadow: 0 0 10px rgba(147, 112, 219, 0.4);
