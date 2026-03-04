@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Fechar ao clicar no "X"
     document.querySelector(".close-button").onclick = () => {
         modal.style.display = "none";
-        // MOSTRA o botão de tema novamente
         themeToggle.style.visibility = 'visible';
     };
 
