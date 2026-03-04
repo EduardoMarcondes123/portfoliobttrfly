@@ -1,140 +1,59 @@
-/* Reset Básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* MANTENHA O RESET E O SISTEMA DE ABAS QUE JÁ TEMOS */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+
+body { background-color: #f4f4f4; color: #333; transition: 0.4s; }
+body.dark-mode { background-color: #1a1a1a !important; color: #f0f0f0 !important; }
+
+.aba { display: none !important; width: 100%; min-height: 100vh; }
+.aba.ativa { display: flex !important; flex-direction: column; align-items: center; }
+
+#aba-home.ativa { justify-content: center; text-align: center; }
+
+/* ESTILO DOS BOTÕES DA HOME */
+.links { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 320px; margin: 0 auto; }
+.btn-menu, .btn-loja, .links a {
+    display: block; width: 100%; text-decoration: none; color: #fff; background-color: #222;
+    padding: 16px; border-radius: 50px; border: none; cursor: pointer; text-align: center; font-size: 1.1rem;
+}
+.btn-menu { background-color: #FF69B4 !important; } /* Rosa */
+.btn-loja { background-color: #FA8072 !important; } /* Salmão */
+
+/* GRID DE PRODUTOS DA LOJA */
+.container-aba { width: 90%; max-width: 1100px; padding: 40px 0; }
+.grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
 }
 
-body {
-    background-color: #f4f4f4;
-    color: #333;
-    transition: 0.4s;
-}
-
-body.dark-mode {
-    background-color: #1a1a1a !important;
-    color: #f0f0f0 !important;
-}
-
-/* --- SISTEMA DE ABAS --- */
-.aba {
-    display: none !important;
-    width: 100%;
-    min-height: 100vh;
-}
-
-.aba.ativa {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center; /* Centraliza horizontalmente o conteúdo da aba */
-}
-
-#aba-home.ativa {
-    justify-content: center; /* Centraliza verticalmente na home */
+.produto-card {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
     text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* --- HERO E LINKS --- */
-.hero h1 {
-    font-size: 3.5rem;
-    color: #FF69B4;
-    margin-bottom: 0.5rem;
+body.dark-mode .produto-card { background: #2a2a2a; }
+
+.produto-card img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+.produto-card h3 { margin-bottom: 5px; color: #FF69B4; }
+.preco { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; color: #FA8072; }
+
+.btn-comprar {
+    background-color: #25D366; /* Cor do WhatsApp */
+    color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;
 }
 
-.hero p {
-    font-size: 1.5rem;
-    color: #FA8072;
-    margin-bottom: 2.5rem;
-}
-
-.links {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-    max-width: 320px; /* Largura ideal para mobile e desktop */
-    margin: 0 auto;   /* CENTRALIZAÇÃO CRÍTICA DO BLOCO */
-}
-
-.btn-menu, .links a {
-    display: block;
-    width: 100%;
-    text-decoration: none;
-    color: #fff;
-    background-color: #222;
-    padding: 16px 30px;
-    border-radius: 50px;
-    transition: 0.3s;
-    font-size: 1.1rem;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-}
-
-.btn-menu {
-    background-color: #FF69B4 !important;
-    font-weight: bold;
-}
-
-.btn-menu:hover, .links a:hover {
-    transform: scale(1.05);
-    filter: brightness(1.1);
-}
-
-/* --- PORTFÓLIO E GALERIA --- */
-.gallery-container {
-    width: 90%;
-    max-width: 1100px;
-    padding: 40px 0;
-}
-
-.btn-voltar {
-    align-self: flex-start;
-    background: none;
-    border: none;
-    color: #FA8072;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-.titulo-secao {
-    color: #FF69B4;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.gallery {
-    column-count: 2;
-    column-gap: 1.5rem;
-}
-
+/* REGRAS DA GALERIA E MODAL (AS MESMAS DE ANTES) */
+.gallery { column-count: 2; column-gap: 1.5rem; }
 @media (max-width: 768px) { .gallery { column-count: 1; } }
+.gallery-item img { width: 100%; border-radius: 12px; cursor: pointer; margin-bottom: 1.5rem; }
 
-.gallery-item { margin-bottom: 1.5rem; break-inside: avoid; }
-.gallery-item img {
-    width: 100%;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-/* --- MODAL --- */
-.modal {
-    display: none; position: fixed; z-index: 10000;
-    left: 0; top: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95); align-items: center; justify-content: center;
-}
+.modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
 .modal-content { max-width: 85%; max-height: 80%; border-radius: 10px; }
 .close-button { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
-.nav-button { position: absolute; top: 50%; color: white; background: none; border: none; font-size: 3rem; cursor: pointer; }
-.prev { left: 15px; } .next { right: 15px; }
 
-/* Botão Tema */
-#theme-toggle {
-    position: fixed; top: 20px; right: 20px;
-    background: #222; color: white; border: none;
-    padding: 10px 15px; border-radius: 50%; cursor: pointer; z-index: 10001;
-}
+#theme-toggle { position: fixed; top: 20px; right: 20px; background: #222; color: white; border: none; padding: 10px 15px; border-radius: 50%; cursor: pointer; z-index: 10001; }
+.btn-voltar { background: none; border: none; color: #FA8072; font-size: 1.1rem; cursor: pointer; margin-bottom: 20px; align-self: flex-start; }
