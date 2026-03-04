@@ -36,8 +36,8 @@ body.dark-mode {
     text-align: center; font-size: 1.1rem; transition: 0.3s; background-color: #222;
 }
 
-.btn-menu { background-color: #FF69B4 !important; }
-.btn-loja { background-color: #FA8072 !important; }
+.btn-menu { background-color: #fd6492 !important; }
+.btn-loja { background-color: #ffb7cd !important; }
 
 /* BOTÃO SOBRE MIM COM EFEITO MÁGICO */
 .btn-sobre { 
