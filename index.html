@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butterfly Drawing</title>
+    <title>Butterfly Drawing | Home</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,21 +15,44 @@
             <p>Ilustradora & Artista Visual</p>
             <div class="links">
                 <button onclick="abrirAba('portfolio')" class="btn-menu">Ver Portfólio</button>
-                <a href="mailto:bttrflydrawing2022@gmail.com" class="btn-contato">Entrar em contato</a>
+                <button onclick="abrirAba('loja')" class="btn-loja">Lojinha de Bijus</button>
+                <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contato</a>
                 <a href="https://instagram.com/bttrfly_drawing" target="_blank">Instagram</a>
             </div>
         </header>
     </div>
 
     <div id="aba-portfolio" class="aba">
-        <div class="gallery-container">
+        <div class="container-aba">
             <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
-            <h2 style="color: #FF69B4; margin-bottom: 20px;">Meu Portfólio</h2>
+            <h2 class="titulo-secao">Meu Portfólio</h2>
             <div class="gallery">
                 <div class="gallery-item"><img src="img/arte1.jpeg" alt="Arte 1"></div>
                 <div class="gallery-item"><img src="img/arte2.jpeg" alt="Arte 2"></div>
                 <div class="gallery-item"><img src="img/arte3.jpeg" alt="Arte 3"></div>
                 <div class="gallery-item"><img src="img/arte4.jpeg" alt="Arte 4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="aba-loja" class="aba">
+        <div class="container-aba">
+            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+            <h2 class="titulo-secao">Lojinha Online</h2>
+            
+            <div class="grid-produtos">
+                <div class="produto-card">
+                    <img src="img/biju1.jpg" alt="Colar">
+                    <h3>Colar de Borboleta</h3>
+                    <p class="preco">R$ 35,00</p>
+                    <button class="btn-comprar">Comprar no Whats</button>
+                </div>
+                <div class="produto-card">
+                    <img src="img/biju2.jpg" alt="Brinco">
+                    <h3>Brinco Artesanal</h3>
+                    <p class="preco">R$ 20,00</p>
+                    <button class="btn-comprar">Comprar no Whats</button>
+                </div>
             </div>
         </div>
     </div>
