@@ -43,3 +43,17 @@ function mudarImagem(direcao) {
     modalImg.src = imagens[indiceAtual].src;
     captionText.innerHTML = imagens[indiceAtual].alt;
 }
+
+// No seu script.js, onde a imagem é clicada:
+img.onclick = function() {
+    modal.style.display = "flex";
+    document.getElementById('theme-toggle').style.visibility = 'hidden'; // Esconde o botão
+    modalImg.src = this.src;
+    // ... restante do código
+}
+
+// E na função de fechar o modal:
+document.querySelector(".close-button").onclick = () => {
+    modal.style.display = "none";
+    document.getElementById('theme-toggle').style.visibility = 'visible'; // Mostra o botão de volta
+}
