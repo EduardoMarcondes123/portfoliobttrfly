@@ -5,42 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel da Chefe | Atelier Mariposa</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #fce4ec; color: #333; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; }
-        .cabecalho { text-align: center; margin-bottom: 20px; }
-        .cabecalho h1 { color: #d81b60; margin: 0; font-size: 32px; }
-        
-        /* TELA DE LOGIN */
-        #tela-login { width: 100%; max-width: 400px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        #tela-login input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; text-align: center; font-size: 16px; }
-        #tela-login button { background-color: #d81b60; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
-        
-        /* PAINEL (Escondido por padrão) */
-        #painel-conteudo { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; }
-        
-        /* ABAS */
-        .abas-admin { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
-        .btn-aba { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #f8bbd0; color: #ad1457; transition: 0.3s; }
-        .btn-aba.ativa { background-color: #d81b60; color: white; }
-        
-        .aba-conteudo { display: none; width: 100%; flex-direction: column; align-items: center; }
-        .aba-conteudo.ativa { display: flex; }
+        :root {
+            --primaria: #d81b60;
+            --primaria-hover: #ad1457;
+            --secundaria: #8e24aa;
+            --bg: #fce4ec;
+            --branco: #ffffff;
+            --texto: #333;
+        }
 
-        /* FORMULÁRIOS E LISTAS */
-        .painel-container { background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; text-align: center; margin-bottom: 20px; border-top: 5px solid #d81b60; }
-        h2 { margin-top: 0; color: #333; font-size: 22px; }
-        .form-grupo { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #555; }
-        input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        button.btn-salvar { background-color: #d81b60; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
-        .aviso { margin-top: 15px; font-size: 14px; font-weight: bold; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); color: var(--texto); display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; }
         
-        .lista-produtos { width: 100%; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; margin-bottom: 40px; }
-        .item-produto { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .item-info { display: flex; align-items: center; gap: 15px; text-align: left; }
-        .item-info img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
-        .item-text h4 { margin: 0; font-size: 14px; color: #333; }
-        .item-text p { margin: 0; font-size: 12px; color: #d81b60; font-weight: bold; }
-        .btn-excluir { background-color: #ff4c4c; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .cabecalho h1 { color: var(--primaria); margin-bottom: 30px; font-size: 32px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+
+        /* TELA DE LOGIN */
+        #tela-login { width: 100%; max-width: 400px; background: var(--branco); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; border-top: 5px solid var(--primaria); }
+        #tela-login input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; text-align: center; font-size: 16px; }
+        #tela-login button { background-color: var(--primaria); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
+        #tela-login button:hover { background-color: var(--primaria-hover); }
+
+        /* PAINEL PRINCIPAL */
+        #painel-conteudo { display: none; width: 100%; max-width: 600px; flex-direction: column; align-items: center; }
+
+        /* NAVEGAÇÃO POR ABAS */
+        .abas-admin { display: flex; gap: 10px; margin-bottom: 25px; width: 100%; }
+        .btn-aba { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #f8bbd0; color: var(--primaria-hover); transition: 0.3s; }
+        .btn-aba.ativa { background-color: var(--primaria); color: white; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3); }
+        .btn-aba-port.ativa { background-color: var(--secundaria); }
+
+        .aba-conteudo { display: none; width: 100%; flex-direction: column; }
+        .aba-conteudo.ativa { display: flex; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CONTAINERS E FORMULÁRIOS */
+        .card { background: var(--branco); padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border-top: 5px solid var(--primaria); }
+        .card-port { border-top-color: var(--secundaria); }
+        
+        .form-grupo { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        
+        .btn-salvar { background-color: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        .btn-salvar-port { background-color: var(--secundaria); }
+
+        /* LISTAGEM */
+        .lista-itens { background: var(--branco); border-radius: 15px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; }
+        .item:last-child { border-bottom: none; }
+        .item-info { display: flex; align-items: center; gap: 15px; }
+        .item-info img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
+        .item-text h4 { margin: 0; font-size: 15px; }
+        .item-text p { margin: 0; font-size: 13px; color: var(--primaria); font-weight: bold; }
+        .btn-excluir { background: #ffeded; color: #ff4c4c; border: 1px solid #ff4c4c; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.2s; }
+        .btn-excluir:hover { background: #ff4c4c; color: white; }
     </style>
 </head>
 <body>
@@ -50,194 +68,197 @@
     </div>
 
     <div id="tela-login">
-        <h2>Acesso Restrito</h2>
-        <p>Digite a senha para gerenciar a loja:</p>
-        <input type="password" id="senha-acesso" placeholder="Senha secreta">
-        <button onclick="entrarNoPainel()">Entrar no Painel</button>
-        <p id="msg-login" style="font-size: 14px; margin-top: 10px; font-weight: bold;"></p>
+        <h2>Acesso Seguro</h2>
+        <input type="password" id="input-senha" placeholder="Sua senha secreta">
+        <button onclick="fazerLogin()" id="btn-login">Entrar no Painel</button>
+        <p id="msg-login" style="margin-top:15px; font-size:14px;"></p>
     </div>
 
     <div id="painel-conteudo">
         
         <div class="abas-admin">
-            <button class="btn-aba ativa" id="btn-loja" onclick="mudarAba('loja')">🛒 Lojinha</button>
-            <button class="btn-aba" id="btn-portfolio" onclick="mudarAba('portfolio')" style="background-color: #e1bee7; color: #6a1b9a;">🎨 Portfólio</button>
+            <button class="btn-aba ativa" id="aba-loja-btn" onclick="trocarAba('loja')">🛒 Minha Loja</button>
+            <button class="btn-aba" id="aba-port-btn" onclick="trocarAba('portfolio')">🎨 Portfólio</button>
         </div>
 
-        <div id="conteudo-loja" class="aba-conteudo ativa">
-            <div class="painel-container">
-                <h2>🛒 Vitrine da Lojinha</h2>
-                <form id="form-produto">
-                    <div class="form-grupo"><label>Nome do Produto:</label><input type="text" id="nome-produto" required></div>
-                    <div class="form-grupo"><label>Preço:</label><input type="text" id="preco-produto" required></div>
-                    <div class="form-grupo"><label>Escolha a Foto:</label><input type="file" id="imagem-produto" accept="image/*" required></div>
-                    <button type="submit" class="btn-salvar" id="btn-salvar-produto">Salvar na Lojinha</button>
+        <div id="aba-loja" class="aba-conteudo ativa">
+            <div class="card">
+                <h3>Cadastrar Novo Chaveiro</h3>
+                <form id="form-loja">
+                    <div class="form-grupo"><label>Nome:</label><input type="text" id="loja-nome" placeholder="Ex: Chaveiro Borboleta" required></div>
+                    <div class="form-grupo"><label>Preço:</label><input type="text" id="loja-preco" placeholder="Ex: R$ 45,00" required></div>
+                    <div class="form-grupo"><label>Foto:</label><input type="file" id="loja-foto" accept="image/*" required></div>
+                    <button type="submit" class="btn-salvar" id="btn-envio-loja">Salvar na Vitrine</button>
                 </form>
-                <div class="aviso" id="msg-produto"></div>
+                <div id="msg-loja" style="margin-top:10px; font-weight:bold; font-size:14px;"></div>
             </div>
-            <div class="lista-produtos">
-                <h3 style="color: #d81b60; text-align: center; margin-top: 0;">Itens à venda</h3>
-                <div id="lista-produtos-container"><p style="text-align: center;">Carregando... ⏳</p></div>
+            <div class="lista-itens">
+                <h4 style="text-align:center; color: var(--primaria);">Itens Atuais na Loja</h4>
+                <div id="container-loja">Carregando...</div>
             </div>
         </div>
 
-        <div id="conteudo-portfolio" class="aba-conteudo">
-            <div class="painel-container" style="border-top-color: #8e24aa;">
-                <h2>🎨 Galeria do Portfólio</h2>
-                <form id="form-portfolio">
-                    <div class="form-grupo"><label>Título da Arte:</label><input type="text" id="titulo-portfolio" required></div>
-                    <div class="form-grupo"><label>Escolha a Foto:</label><input type="file" id="imagem-portfolio" accept="image/*" required></div>
-                    <button type="submit" class="btn-salvar" style="background-color: #8e24aa;" id="btn-salvar-portfolio">Salvar no Portfólio</button>
+        <div id="aba-portfolio" class="aba-conteudo">
+            <div class="card card-port">
+                <h3>Cadastrar Nova Arte</h3>
+                <form id="form-port">
+                    <div class="form-grupo"><label>Título da Arte:</label><input type="text" id="port-titulo" placeholder="Ex: Coleção Primavera" required></div>
+                    <div class="form-grupo"><label>Foto:</label><input type="file" id="port-foto" accept="image/*" required></div>
+                    <button type="submit" class="btn-salvar btn-salvar-port" id="btn-envio-port">Salvar na Galeria</button>
                 </form>
-                <div class="aviso" id="msg-portfolio"></div>
+                <div id="msg-port" style="margin-top:10px; font-weight:bold; font-size:14px;"></div>
             </div>
-            <div class="lista-produtos">
-                <h3 style="color: #8e24aa; text-align: center; margin-top: 0;">Artes no Site</h3>
-                <div id="lista-portfolio-container"><p style="text-align: center;">Carregando... ⏳</p></div>
+            <div class="lista-itens">
+                <h4 style="text-align:center; color: var(--secundaria);">Fotos na Galeria</h4>
+                <div id="container-port">Carregando...</div>
             </div>
         </div>
 
     </div>
 
     <script>
-        const API_URL_BASE = "https://back-mariposa.onrender.com/api";
-        let senhaGlobal = "";
+        const API_BASE = "https://back-mariposa.onrender.com/api";
+        let TOKEN = ""; // Crachá JWT
 
-        // ==========================================
-        // 1. SISTEMA DE LOGIN REAL (Verifica no Back-end)
-        // ==========================================
-        async function entrarNoPainel() {
-            const senhaDigitada = document.getElementById('senha-acesso').value;
+        // 1. LOGIN COM TOKEN
+        async function fazerLogin() {
+            const senha = document.getElementById('input-senha').value;
             const msg = document.getElementById('msg-login');
-            if (!senhaDigitada) return;
-            
-            msg.style.color = "#333";
-            msg.innerText = "Verificando senha... ⏳";
+            const btn = document.getElementById('btn-login');
 
+            if(!senha) return;
+            msg.innerText = "Validando crachá... 🛡️";
+            
             try {
-                const resposta = await fetch(`${API_URL_BASE}/login`, {
+                const res = await fetch(`${API_BASE}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ senha: senhaDigitada })
+                    body: JSON.stringify({ senha })
                 });
 
-                if (resposta.ok) {
-                    senhaGlobal = senhaDigitada; 
+                const dados = await res.json();
+
+                if (res.ok) {
+                    TOKEN = dados.token;
                     document.getElementById('tela-login').style.display = 'none';
                     document.getElementById('painel-conteudo').style.display = 'flex';
-                    carregarLista(`${API_URL_BASE}/produtos`, 'lista-produtos-container', true);
-                    carregarLista(`${API_URL_BASE}/portfolio`, 'lista-portfolio-container', false);
+                    atualizarListas();
                 } else {
                     msg.style.color = "red";
-                    msg.innerText = "❌ Senha Incorreta!";
+                    msg.innerText = dados.erro || "Senha incorreta!";
                 }
-            } catch (error) {
-                msg.style.color = "red";
-                msg.innerText = "❌ Erro ao conectar no servidor.";
+            } catch (err) {
+                msg.innerText = "Servidor dormindo... Tente de novo em 30s! 😴";
             }
         }
 
-        // ==========================================
-        // 2. NAVEGAÇÃO ENTRE ABAS
-        // ==========================================
-        function mudarAba(aba) {
-            document.getElementById('conteudo-loja').classList.remove('ativa');
-            document.getElementById('conteudo-portfolio').classList.remove('ativa');
-            document.getElementById('btn-loja').classList.remove('ativa');
-            document.getElementById('btn-portfolio').classList.remove('ativa');
-            document.getElementById('btn-portfolio').style.backgroundColor = '#e1bee7';
-            document.getElementById('btn-portfolio').style.color = '#6a1b9a';
-
-            document.getElementById('conteudo-' + aba).classList.add('ativa');
-            const btnAtivo = document.getElementById('btn-' + aba);
-            btnAtivo.classList.add('ativa');
+        // 2. TROCAR ABAS
+        function trocarAba(aba) {
+            document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativa'));
+            document.querySelectorAll('.btn-aba').forEach(b => b.classList.remove('ativa'));
             
-            if (aba === 'portfolio') {
-                btnAtivo.style.backgroundColor = '#8e24aa';
-                btnAtivo.style.color = 'white';
-            }
+            document.getElementById(`aba-${aba}`).classList.add('ativa');
+            const btn = document.getElementById(`aba-${aba}-btn`);
+            btn.classList.add('ativa');
+            if(aba === 'portfolio') btn.classList.add('btn-aba-port');
         }
 
-        // ==========================================
-        // 3. COMPRESSOR E FUNÇÕES REUTILIZÁVEIS
-        // ==========================================
-        function processarFotoEEnviar(arquivoFoto, urlAPI, dadosJSON, botao, elementoMensagem, callbackAtualizar) {
-            botao.innerText = "Preparando a foto... ⏳";
-            elementoMensagem.innerText = "";
+        // 3. COMPRESSOR E ENVIO (COM TOKEN)
+        function enviarDados(arquivo, url, dados, btn, msgElemento, callback) {
+            btn.innerText = "Processando foto... 📸";
             const leitor = new FileReader();
-            leitor.onloadend = function(e) {
+            leitor.readAsDataURL(arquivo);
+            leitor.onload = (e) => {
                 const img = new Image();
                 img.src = e.target.result;
-                img.onload = async function() {
+                img.onload = async () => {
                     const canvas = document.createElement('canvas');
-                    let width = img.width; let height = img.height;
-                    if (width > height) { if (width > 600) { height *= 600 / width; width = 600; } } 
-                    else { if (height > 600) { width *= 600 / height; height = 600; } }
-                    canvas.width = width; canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
+                    let w = img.width; let h = img.height;
+                    if (w > h) { if (w > 600) { h *= 600 / w; w = 600; } } 
+                    else { if (h > 600) { w *= 600 / h; h = 600; } }
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    
+                    dados.imagem = canvas.toDataURL('image/jpeg', 0.7);
+                    btn.innerText = "Enviando para o Cofre... 🚀";
 
-                    dadosJSON.imagem = canvas.toDataURL('image/jpeg', 0.7);
-                    botao.innerText = "Salvando... 🚀";
                     try {
-                        const res = await fetch(urlAPI, {
+                        const res = await fetch(url, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json', 'x-senha-admin': senhaGlobal },
-                            body: JSON.stringify(dadosJSON)
+                            headers: { 
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${TOKEN}` // Crachá aqui!
+                            },
+                            body: JSON.stringify(dados)
                         });
-                        if (res.ok) {
-                            elementoMensagem.style.color = "green"; elementoMensagem.innerText = "✅ Salvo com sucesso!"; callbackAtualizar();
-                        } else { elementoMensagem.style.color = "red"; elementoMensagem.innerText = "❌ Erro ao salvar."; }
-                    } catch (error) { elementoMensagem.style.color = "red"; elementoMensagem.innerText = "❌ Erro de conexão."; } 
-                    finally { botao.innerText = "Salvar"; }
+                        if(res.ok) {
+                            msgElemento.innerHTML = "✅ Sucesso!";
+                            callback();
+                        } else {
+                            msgElemento.innerHTML = "❌ Erro de permissão.";
+                        }
+                    } catch (err) { msgElemento.innerHTML = "❌ Erro de conexão."; }
+                    finally { btn.innerText = "Salvar"; }
                 };
             };
-            leitor.readAsDataURL(arquivoFoto);
         }
 
-        async function carregarLista(urlAPI, idContainer, ehProduto) {
-            const container = document.getElementById(idContainer);
-            const res = await fetch(urlAPI);
+        // 4. LISTAGEM E EXCLUSÃO
+        async function atualizarListas() {
+            carregarItens(`${API_BASE}/produtos`, 'container-loja', true);
+            carregarItens(`${API_BASE}/portfolio`, 'container-port', false);
+        }
+
+        async function carregarItens(url, idContainer, ehLoja) {
+            const res = await fetch(url);
             const itens = await res.json();
-            container.innerHTML = itens.length === 0 ? "<p>Vazio.</p>" : "";
+            const container = document.getElementById(idContainer);
+            container.innerHTML = itens.length ? "" : "Nada cadastrado ainda.";
+            
             itens.forEach(item => {
-                const texto = ehProduto ? `<p>${item.preco}</p>` : "";
-                const titulo = ehProduto ? item.nome : item.titulo;
-                container.innerHTML += `
-                    <div class="item-produto">
-                        <div class="item-info"><img src="${item.imagem}"> <div class="item-text"><h4>${titulo}</h4>${texto}</div></div>
-                        <button class="btn-excluir" onclick="excluirItem('${item._id}', '${urlAPI}', '${idContainer}', ${ehProduto})">Excluir</button>
-                    </div>`;
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.innerHTML = `
+                    <div class="item-info">
+                        <img src="${item.imagem}">
+                        <div class="item-text">
+                            <h4>${ehLoja ? item.nome : item.titulo}</h4>
+                            ${ehLoja ? `<p>${item.preco}</p>` : ""}
+                        </div>
+                    </div>
+                    <button class="btn-excluir" onclick="excluir('${item._id}', '${url}', '${idContainer}', ${ehLoja})">Excluir</button>
+                `;
+                container.appendChild(div);
             });
         }
 
-        async function excluirItem(id, urlAPI, idContainer, ehProduto) {
-            if (!confirm(`Tem certeza que deseja excluir?`)) return;
-            try {
-                const res = await fetch(`${urlAPI}/${id}`, { method: 'DELETE', headers: { 'x-senha-admin': senhaGlobal } });
-                if (res.ok) { carregarLista(urlAPI, idContainer, ehProduto); } 
-                else { alert('Erro ao excluir.'); }
-            } catch (erro) { alert('Erro de conexão.'); }
+        async function excluir(id, url, idContainer, ehLoja) {
+            if(!confirm("Deseja apagar este item?")) return;
+            await fetch(`${url}/${id}`, { 
+                method: 'DELETE', 
+                headers: { 'Authorization': `Bearer ${TOKEN}` } 
+            });
+            carregarItens(url, idContainer, ehLoja);
         }
 
-        // ==========================================
-        // 4. EVENTOS DOS FORMULÁRIOS
-        // ==========================================
-        document.getElementById('form-produto').addEventListener('submit', function(e) {
+        // EVENTOS DOS FORMULÁRIOS
+        document.getElementById('form-loja').onsubmit = (e) => {
             e.preventDefault();
-            const foto = document.getElementById('imagem-produto').files[0];
-            processarFotoEEnviar(foto, `${API_URL_BASE}/produtos`, { nome: document.getElementById('nome-produto').value, preco: document.getElementById('preco-produto').value }, document.getElementById('btn-salvar-produto'), document.getElementById('msg-produto'), () => {
-                document.getElementById('form-produto').reset(); carregarLista(`${API_URL_BASE}/produtos`, 'lista-produtos-container', true);
+            enviarDados(document.getElementById('loja-foto').files[0], `${API_BASE}/produtos`, 
+            { nome: document.getElementById('loja-nome').value, preco: document.getElementById('loja-preco').value },
+            document.getElementById('btn-envio-loja'), document.getElementById('msg-loja'), () => {
+                document.getElementById('form-loja').reset(); carregarItens(`${API_BASE}/produtos`, 'container-loja', true);
             });
-        });
+        };
 
-        document.getElementById('form-portfolio').addEventListener('submit', function(e) {
+        document.getElementById('form-port').onsubmit = (e) => {
             e.preventDefault();
-            const foto = document.getElementById('imagem-portfolio').files[0];
-            processarFotoEEnviar(foto, `${API_URL_BASE}/portfolio`, { titulo: document.getElementById('titulo-portfolio').value }, document.getElementById('btn-salvar-portfolio'), document.getElementById('msg-portfolio'), () => {
-                document.getElementById('form-portfolio').reset(); carregarLista(`${API_URL_BASE}/portfolio`, 'lista-portfolio-container', false);
+            enviarDados(document.getElementById('port-foto').files[0], `${API_BASE}/portfolio`, 
+            { titulo: document.getElementById('port-titulo').value },
+            document.getElementById('btn-envio-port'), document.getElementById('msg-port'), () => {
+                document.getElementById('form-port').reset(); carregarItens(`${API_BASE}/portfolio`, 'container-port', false);
             });
-        });
+        };
     </script>
 </body>
 </html>
