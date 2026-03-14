@@ -20,7 +20,11 @@ const Produto = mongoose.model('Produto', new mongoose.Schema({
     imagem: String
 }));
 
-// Rota para mostrar os produtos
+// ==========================================
+// ROTAS DA API
+// ==========================================
+
+// Rota para MOSTRAR os produtos (Lê do banco e manda pro site)
 app.get('/api/produtos', async (req, res) => {
     try {
         const produtos = await Produto.find(); // Puxa tudo do banco
@@ -30,7 +34,21 @@ app.get('/api/produtos', async (req, res) => {
     }
 });
 
-const PORTA = 3000;
+// Rota para ADICIONAR um novo produto (Vem do painel e salva no banco)
+app.post('/api/produtos', async (req, res) => {
+    try {
+        const novoProduto = new Produto(req.body); // Pega os dados que vieram do formulário
+        await novoProduto.save(); // Salva no Cofre (MongoDB)
+        res.status(201).json({ mensagem: "Produto salvo com sucesso! 🦋", produto: novoProduto });
+    } catch (error) {
+        res.status(500).json({ erro: "Erro ao salvar o produto" });
+    }
+});
+
+// ==========================================
+// LIGANDO O MOTOR
+// ==========================================
+const PORTA = 3000; // O Render pode mudar isso automaticamente depois
 app.listen(PORTA, () => {
     console.log(`🚀 Foguete não tem ré! Servidor rodando na porta ${PORTA}`);
 });
