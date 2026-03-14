@@ -3,99 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="referrer" content="no-referrer">
-    
-    <title>Butterfly Drawing | Portfólio & Loja</title>
-    <link rel="icon" type="image/png" href="img/favicon.png?v=1">
-    
-    <link rel="stylesheet" href="style.css?v=3">
+    <title>Atelier Mariposa | Chaveiros em Resina</title>
+    <style>
+        /* --- CORES E FONTES --- */
+        :root {
+            --primaria: #d81b60;
+            --primaria-hover: #ad1457;
+            --secundaria: #8e24aa;
+            --bg: #fce4ec;
+            --texto: #333;
+            --branco: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--texto);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- CABEÇALHO --- */
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--primaria);
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-style: italic;
+            color: var(--secundaria);
+        }
+
+        .secao-titulo {
+            margin: 30px 0 15px;
+            color: var(--secundaria);
+            font-size: 24px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* --- GRID GERAL (PC E TABLET) --- */
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 20px 40px;
+            box-sizing: border-box;
+        }
+
+        /* --- CARD DO PRODUTO --- */
+        .produto-card {
+            background: var(--branco);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .produto-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* --- A MÁGICA DA FOTO SEM CORTE --- */
+        .produto-card img {
+            width: 100%;
+            height: 200px; /* Altura padrão para telas grandes */
+            object-fit: contain; /* 👈 Foto inteira, sem cortar as bordas */
+            background-color: #fff; /* Fundo branco pra preencher o espaço extra */
+            border-bottom: 1px solid #f0f0f0;
+            padding: 5px; /* Um respiro em volta da foto */
+            box-sizing: border-box;
+        }
+
+        /* --- INFORMAÇÕES E BOTÃO --- */
+        .produto-info {
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .produto-info h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .produto-info .preco {
+            color: var(--primaria);
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .btn-comprar {
+            background-color: var(--primaria);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .btn-comprar:hover {
+            background-color: var(--primaria-hover);
+        }
+
+        /* ========================================= */
+        /* --- A MÁGICA DO CELULAR (ATÉ 600px) ---   */
+        /* ========================================= */
+        @media (max-width: 600px) {
+            .produtos-grid {
+                grid-template-columns: repeat(2, 1fr); /* 👈 Exatamente 2 colunas */
+                gap: 12px; /* Menos espaço entre os cards */
+                padding: 0 10px 30px;
+            }
+
+            .produto-card img {
+                height: 150px; /* Foto um pouco menor pra caber melhor na tela */
+            }
+
+            .produto-info {
+                padding: 10px;
+            }
+
+            .produto-info h3 {
+                font-size: 13px; /* Título menorzinho */
+                margin-bottom: 5px;
+            }
+
+            .produto-info .preco {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+
+            .btn-comprar {
+                padding: 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <button id="theme-toggle">🌙</button>
 
-    <div id="aba-home" class="aba ativa">
-        <header class="hero">
-            <h1>Butterfly Drawing</h1>
-            <p>Ilustradora & Artista Visual</p>
-            <div class="links">
-                <button onclick="abrirAba('portfolio')" class="btn-menu">Ver Portfólio</button>
-                <button onclick="abrirAba('loja')" class="btn-loja">Atelier Mariposa</button>
-                <button onclick="abrirAba('sobre')" class="btn-sobre">
-                    <span class="icon">🦋</span> Sobre Mim
-                </button>
-                <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contato</a>
-            </div>
-        </header>
+    <header>
+        <h1>Atelier Mariposa 🦋</h1>
+        <p>Arte em Resina & Brilho</p>
+    </header>
+
+    <h2 class="secao-titulo">🛒 Nossa Lojinha</h2>
+    <div class="produtos-grid" id="grid-produtos">
+        <p style="text-align: center; width: 100%; grid-column: 1 / -1; color: var(--primaria);">Acordando o servidor e carregando as lindezas... ✨</p>
     </div>
 
-    <div id="aba-portfolio" class="aba">
-        <div class="container-aba">
-            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
-            <h2 class="titulo-secao">Meu Portfólio</h2>
-            
-            <div class="container-btn-ig">
-                <a href="https://instagram.com/bttrfly_drawing" target="_blank" class="btn-instagram">
-                    📸 Siga minhas artes no Instagram
-                </a>
-            </div>
-
-            <main class="gallery-container">
-                <div class="gallery" id="grid-portfolio">
-                    <p style="text-align: center; width: 100%;">Carregando as artes... 🎨🦋</p>
-                </div>
-            </main>
+    <h2 class="secao-titulo">🎨 Nosso Portfólio</h2>
+    <div class="produtos-grid" id="grid-portfolio">
         </div>
-    </div>
 
-    <div id="aba-loja" class="aba">
-        <div class="container-aba">
-            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
-            <h2 class="titulo-secao">Atelier Mariposa</h2>
-            
-            <div class="container-btn-ig">
-                <a href="https://instagram.com/atelier_mariposa._" target="_blank" class="btn-instagram">
-                    🛍️ Acompanhe as novidades no Instagram
-                </a>
-            </div>
+    <script>
+        // URL DO SEU BACK-END NO RENDER
+        const API_BASE = "https://back-mariposa.onrender.com/api";
 
-            <div class="grid-produtos" id="grid-produtos">
-                <p style="text-align: center; width: 100%; grid-column: 1/-1;">Carregando novidades... 🦋</p>
-            </div>
-        </div>
-    </div>
+        async function carregarConteudo() {
+            try {
+                // 1. Bate na porta do servidor pedindo os Produtos
+                const resProdutos = await fetch(`${API_BASE}/produtos`);
+                const produtos = await resProdutos.json();
+                
+                const containerProdutos = document.getElementById('grid-produtos');
+                containerProdutos.innerHTML = ""; // Limpa a mensagem de "carregando"
 
-    <div id="aba-sobre" class="aba">
-        <div class="container-aba">
-            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
-            <h2 class="titulo-secao">Sobre Mim</h2>
-            <div class="sobre-container">
-                <img src="img/perfil.jpeg" alt="Minha Foto" class="foto-perfil">
-                <div class="sobre-texto">
-                    <h3>Olá! Bem-vinda(o) ao meu universo! 🦋</h3>
-                    <p>Sou a artista por trás da Butterfly Drawing. Sou uma ilustradora e artista visual apaixonada por transformar sentimentos e ideias em arte.</p>
-                    <p>Meu trabalho é inspirado na natureza, nas emoções e na delicadeza das formas. Além das ilustrações digitais e tradicionais, também crio bijuterias artesanais exclusivas com muito carinho, que você pode encontrar na minha lojinha.</p>
-                    <p>Obrigada por apoiar a arte independente!</p>
-                </div>
-            </div>
-        </div>
-    </div>
+                if (produtos.length === 0) {
+                    containerProdutos.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>Nenhum chaveiro cadastrado ainda!</p>";
+                } else {
+                    // Monta cada card de produto
+                    produtos.forEach(p => {
+                        // Criei uma mensagem pronta pro WhatsApp já com o nome e preço!
+                        const msgZap = encodeURIComponent(`Oii! Gostaria de encomendar o ${p.nome} (${p.preco}).`);
+                        // Coloque o número dela no link abaixo (com DDD, sem espaços)
+                        const linkZap = `https://wa.me/5511999999999?text=${msgZap}`;
 
-    <div id="modal-container" class="modal">
-        <span class="close-button">&times;</span>
-        <button class="nav-button prev" onclick="mudarImagem(-1)">&lt;</button>
-        <img class="modal-content" id="img-ampliada">
-        <button class="nav-button next" onclick="mudarImagem(1)">&gt;</button>
-        <div id="caption"></div>
-    </div>
+                        containerProdutos.innerHTML += `
+                            <div class="produto-card">
+                                <img src="${p.imagem}" alt="${p.nome}">
+                                <div class="produto-info">
+                                    <h3>${p.nome}</h3>
+                                    <div class="preco">${p.preco}</div>
+                                    <a href="${linkZap}" target="_blank" class="btn-comprar">Eu quero! 💖</a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
 
-    <footer>
-        <p>&copy; 2026 Butterfly Drawing. Todos os direitos reservados.</p>
-    </footer>
+                // 2. Bate na porta pedindo o Portfólio (não tem preço nem botão comprar)
+                const resPort = await fetch(`${API_BASE}/portfolio`);
+                const artes = await resPort.json();
+                
+                const containerPort = document.getElementById('grid-portfolio');
+                containerPort.innerHTML = "";
 
-    <script src="script.js?v=3"></script>
+                if (artes.length === 0) {
+                    containerPort.innerHTML = "<p style='grid-column: 1 / -1; text-align: center;'>Nenhuma arte no portfólio ainda!</p>";
+                } else {
+                    artes.forEach(a => {
+                        containerPort.innerHTML += `
+                            <div class="produto-card">
+                                <img src="${a.imagem}" alt="${a.titulo}">
+                                <div class="produto-info">
+                                    <h3>${a.titulo}</h3>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+            } catch (error) {
+                console.error("Erro ao carregar do servidor:", error);
+                document.getElementById('grid-produtos').innerHTML = "<p style='grid-column: 1 / -1; text-align: center; color: red;'>O servidor está dormindo ou offline. Tente atualizar a página! 😴</p>";
+            }
+        }
+
+        // Roda a função assim que o site abre
+        carregarConteudo();
+    </script>
 </body>
 </html>
