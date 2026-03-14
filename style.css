@@ -116,7 +116,7 @@ body.dark-mode .btn-instagram:hover { background-color: #ffb7cd; color: #1a1a1a 
 .produto-card img { width: 100%; border-radius: 10px; margin-bottom: 10px; aspect-ratio: 1/1; object-fit: cover; }
 
 .btn-comprar { 
-    display: block; text-decoration: none; background-color: #25D366; 
+    display: block; text-decoration: none; background-color: #Fa7f72; 
     color: white !important; padding: 12px; border-radius: 10px; 
     width: 100%; font-weight: bold; transition: 0.3s; 
 }
