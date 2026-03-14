@@ -74,40 +74,74 @@
                 return;
             }
 
-            btnSalvar.innerText = "Convertendo foto e salvando... ⏳";
+            btnSalvar.innerText = "Preparando a foto... ⏳";
             mensagem.innerText = "";
 
-            // O Leitor Mágico que transforma a foto em texto
+            // O Leitor Mágico
             const leitor = new FileReader();
             
-            leitor.onloadend = async function() {
-                const fotoEmTexto = leitor.result; // Essa é a foto convertida
+            leitor.onloadend = function(e) {
+                // Aqui começa a mágica do COMPRESSOR
+                const img = new Image();
+                img.src = e.target.result;
 
-                try {
-                    const resposta = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome: nome, preco: preco, imagem: fotoEmTexto })
-                    });
+                img.onload = async function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 600; // Largura máxima da foto
+                    const MAX_HEIGHT = 600; // Altura máxima da foto
+                    let width = img.width;
+                    let height = img.height;
 
-                    if (resposta.ok) {
-                        mensagem.style.color = "green";
-                        mensagem.innerText = "✅ Joia cadastrada com sucesso!";
-                        document.getElementById('form-produto').reset();
-                        carregarLista();
+                    // Calcula a proporção pra não distorcer a foto
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
                     } else {
-                        mensagem.style.color = "red";
-                        mensagem.innerText = "❌ Erro ao salvar.";
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
                     }
-                } catch (error) {
-                    mensagem.style.color = "red";
-                    mensagem.innerText = "❌ Erro de conexão com o servidor.";
-                } finally {
-                    btnSalvar.innerText = "Salvar no Banco de Dados";
-                }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Transforma a foto reduzida em texto (com qualidade de 70% pra ficar leve)
+                    const fotoLeve = canvas.toDataURL('image/jpeg', 0.7);
+
+                    btnSalvar.innerText = "Salvando no Banco... 🚀";
+
+                    // Agora envia pro servidor
+                    try {
+                        const resposta = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ nome: nome, preco: preco, imagem: fotoLeve })
+                        });
+
+                        if (resposta.ok) {
+                            mensagem.style.color = "green";
+                            mensagem.innerText = "✅ Joia cadastrada com sucesso!";
+                            document.getElementById('form-produto').reset();
+                            carregarLista();
+                        } else {
+                            mensagem.style.color = "red";
+                            mensagem.innerText = "❌ Erro ao salvar.";
+                        }
+                    } catch (error) {
+                        mensagem.style.color = "red";
+                        mensagem.innerText = "❌ Erro de conexão com o servidor.";
+                    } finally {
+                        btnSalvar.innerText = "Salvar no Banco de Dados";
+                    }
+                };
             };
 
-            // Manda o leitor ler a foto
+            // Manda o leitor ler a foto original
             leitor.readAsDataURL(arquivoFoto);
         });
 
