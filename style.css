@@ -1,3 +1,6 @@
+/* ==========================================
+   1. RESET E BLINDAGEM VISUAL (ANTI-CÓPIA)
+   ========================================== */
 * {
     margin: 0;
     padding: 0;
@@ -6,6 +9,13 @@
 }
 
 body {
+    /* Impede a seleção de texto e menus indesejados no celular */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none; /* iOS: Desativa o menu de "Salvar" ao segurar o dedo */
+    
     background-color: #f4f4f4;
     color: #333;
     transition: background 0.4s, color 0.4s;
@@ -15,17 +25,38 @@ body {
     min-height: 100vh;
 }
 
+img {
+    /* Impede que imagens sejam arrastadas pelo mouse */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    pointer-events: auto; /* Mantém o clique ativo para o Modal funcionar */
+}
+
+/* ==========================================
+   2. TEMA ESCURO (DARK MODE)
+   ========================================== */
 body.dark-mode {
     background-color: #1a1a1a !important;
     color: #f0f0f0 !important;
 }
+body.dark-mode footer { background-color: #111; }
+body.dark-mode .produto-card { background: #2a2a2a; }
+body.dark-mode .sobre-container { background: #2a2a2a; }
+body.dark-mode .sobre-texto p { color: #ddd; }
 
-/* --- ABAS --- */
+/* ==========================================
+   3. SISTEMA DE ABAS (PAGES)
+   ========================================== */
 .aba { display: none !important; width: 100%; flex: 1; }
 .aba.ativa { display: flex !important; flex-direction: column; align-items: center; }
 #aba-home.ativa { justify-content: center; text-align: center; }
+.container-aba { width: 90%; max-width: 1100px; padding: 40px 0; flex: 1; }
 
-/* --- HOME E BOTÕES --- */
+/* ==========================================
+   4. TELA INICIAL (HOME) E BOTÕES
+   ========================================== */
 .hero h1 { font-size: 3.5rem; color: #fd6492; margin-bottom: 0.5rem; }
 .hero p { font-size: 1.5rem; color: #ffb7cd; margin-bottom: 2.5rem; }
 .links { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 320px; margin: 0 auto; }
@@ -39,7 +70,7 @@ body.dark-mode {
 .btn-menu { background-color: #fd6492 !important; }
 .btn-loja { background-color: #ffb7cd !important; }
 
-/* BOTÃO SOBRE MIM COM EFEITO MÁGICO */
+/* Botão mágico da aba "Sobre" */
 .btn-sobre { 
     background-color: #feeef1 !important; 
     display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -58,52 +89,30 @@ body.dark-mode {
     transform: scale(1.05); filter: brightness(1.1);
 }
 
-/* --- NOVO BOTÃO INSTAGRAM (PORTFÓLIO E LOJA) --- */
+/* ==========================================
+   5. BOTÃO INSTAGRAM (OPÇÃO MINIMALISTA CHIC)
+   ========================================== */
 .container-btn-ig {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 30px;
+    display: flex; justify-content: center; width: 100%; margin-bottom: 30px;
 }
-
 .btn-instagram {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background-color: transparent;
-    color: #fd6492 !important;
-    border: 2px solid #fd6492;
-    padding: 10px 24px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background-color: transparent; color: #fd6492 !important;
+    border: 2px solid #fd6492; padding: 10px 24px; border-radius: 50px;
+    font-weight: 600; font-size: 1rem; text-decoration: none; transition: all 0.3s ease;
 }
-
 .btn-instagram:hover {
-    background-color: #fd6492;
-    color: white !important;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(253, 100, 146, 0.3);
+    background-color: #fd6492; color: white !important;
+    transform: translateY(-3px); box-shadow: 0 5px 15px rgba(253, 100, 146, 0.3);
 }
+body.dark-mode .btn-instagram { border-color: #ffb7cd; color: #ffb7cd !important; }
+body.dark-mode .btn-instagram:hover { background-color: #ffb7cd; color: #1a1a1a !important; }
 
-/* Modo escuro para o botão do Instagram */
-body.dark-mode .btn-instagram {
-    border-color: #ffb7cd;
-    color: #ffb7cd !important;
-}
-body.dark-mode .btn-instagram:hover {
-    background-color: #ffb7cd;
-    color: #1a1a1a !important;
-}
-
-/* --- LOJA --- */
-.container-aba { width: 90%; max-width: 1100px; padding: 40px 0; flex: 1; }
+/* ==========================================
+   6. LOJA (PRODUTOS)
+   ========================================== */
 .grid-produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
 .produto-card { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-body.dark-mode .produto-card { background: #2a2a2a; }
 .produto-card img { width: 100%; border-radius: 10px; margin-bottom: 10px; aspect-ratio: 1/1; object-fit: cover; }
 
 .btn-comprar { 
@@ -113,7 +122,9 @@ body.dark-mode .produto-card { background: #2a2a2a; }
 }
 .btn-comprar:hover { transform: scale(1.02); filter: brightness(1.1); }
 
-/* --- PORTFÓLIO (EFEITO HOVER) --- */
+/* ==========================================
+   7. PORTFÓLIO E MODAL
+   ========================================== */
 .gallery { column-count: 2; column-gap: 1.5rem; }
 @media (max-width: 768px) { .gallery { column-count: 1; } }
 
@@ -121,29 +132,6 @@ body.dark-mode .produto-card { background: #2a2a2a; }
 .gallery-item img { width: 100%; display: block; transition: transform 0.5s ease; }
 .gallery-item:hover img { transform: scale(1.08); }
 
-/* --- SOBRE MIM --- */
-.sobre-container {
-    display: flex; flex-direction: column; align-items: center; gap: 30px;
-    background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-body.dark-mode .sobre-container { background: #2a2a2a; }
-
-.foto-perfil {
-    width: 200px; height: 200px; border-radius: 50%; object-fit: cover;
-    border: 5px solid #FF69B4; box-shadow: 0 4px 15px rgba(255,105,180,0.3);
-}
-
-.sobre-texto { text-align: center; }
-.sobre-texto h3 { color: #FF69B4; margin-bottom: 15px; font-size: 1.8rem; }
-.sobre-texto p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; color: #555; }
-body.dark-mode .sobre-texto p { color: #ddd; }
-
-@media (min-width: 768px) {
-    .sobre-container { flex-direction: row; text-align: left; }
-    .sobre-texto { text-align: left; }
-}
-
-/* --- MODAL --- */
 .modal {
     display: none; position: fixed; z-index: 20000; left: 0; top: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.95); align-items: center; justify-content: center;
@@ -157,7 +145,28 @@ body.dark-mode .sobre-texto p { color: #ddd; }
 }
 .prev { left: 20px; } .next { right: 20px; }
 
-/* --- INTERFACE E RODAPÉ --- */
+/* ==========================================
+   8. SOBRE MIM
+   ========================================== */
+.sobre-container {
+    display: flex; flex-direction: column; align-items: center; gap: 30px;
+    background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.foto-perfil {
+    width: 200px; height: 200px; border-radius: 50%; object-fit: cover;
+    border: 5px solid #FF69B4; box-shadow: 0 4px 15px rgba(255,105,180,0.3);
+}
+.sobre-texto { text-align: center; }
+.sobre-texto h3 { color: #FF69B4; margin-bottom: 15px; font-size: 1.8rem; }
+.sobre-texto p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; color: #555; }
+@media (min-width: 768px) {
+    .sobre-container { flex-direction: row; text-align: left; }
+    .sobre-texto { text-align: left; }
+}
+
+/* ==========================================
+   9. INTERFACE E RODAPÉ
+   ========================================== */
 #theme-toggle {
     position: fixed; top: 20px; right: 20px; background: #222; color: white;
     border: none; padding: 10px 15px; border-radius: 50%; cursor: pointer; z-index: 10000;
@@ -165,8 +174,4 @@ body.dark-mode .sobre-texto p { color: #ddd; }
 .btn-voltar { background: none; border: none; color: #FA8072; font-size: 1.1rem; cursor: pointer; margin-bottom: 20px; align-self: flex-start; }
 .titulo-secao { font-size: 2.5rem; color: #FF69B4; margin-bottom: 20px; text-align: center; }
 
-footer {
-    width: 100%; background-color: #222; color: #fff;
-    text-align: center; padding: 20px 0; margin-top: auto; font-size: 0.9rem;
-}
-body.dark-mode footer { background-color: #111; }
+footer { width: 100%; background-color: #222; color: #fff; text-align: center; padding: 20px 0; margin-top: auto; font-size: 0.9rem; }
