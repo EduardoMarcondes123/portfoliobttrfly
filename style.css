@@ -175,3 +175,43 @@ body.dark-mode .btn-instagram:hover { background-color: #ffb7cd; color: #1a1a1a 
 .titulo-secao { font-size: 2.5rem; color: #FF69B4; margin-bottom: 20px; text-align: center; }
 
 footer { width: 100%; background-color: #222; color: #fff; text-align: center; padding: 20px 0; margin-top: auto; font-size: 0.9rem; }
+
+/* ==========================================
+   CORREÇÃO DA VITRINE (4 POR FILEIRA)
+   ========================================== */
+
+.grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Força exatamente 4 colunas do mesmo tamanho */
+    gap: 20px; /* Espaço entre os chaveiros */
+    width: 100%;
+    max-width: 1000px; /* Limita a largura total para não esticar na tela do PC */
+    margin: 0 auto; /* Centraliza a vitrine na tela */
+}
+
+.produto-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.produto-card img {
+    width: 100%; /* A foto nunca vai ser maior que o cardzinho */
+    height: 200px; /* Trava a altura (pode aumentar ou diminuir se quiser) */
+    object-fit: cover; /* Faz um corte inteligente na foto pra ela não ficar achatada */
+    border-radius: 8px; /* Deixa as bordinhas da foto arredondadas */
+}
+
+/* Deixa responsivo para o celular da sua namorada (2 por fileira no mobile) */
+@media (max-width: 768px) {
+    .grid-produtos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 1 por fileira em celulares muito pequenos */
+@media (max-width: 480px) {
+    .grid-produtos {
+        grid-template-columns: 1fr;
+    }
+}
