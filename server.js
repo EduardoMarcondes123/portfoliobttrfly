@@ -13,7 +13,7 @@ app.use(helmet());
 
 // 2. CORS RESTRITO: Só aceita ordens vindas do SEU site (Ajuste a URL abaixo!)
 const corsOptions = {
-    origin: ['https://SEU-SITE-AQUI.vercel.app', 'http://127.0.0.1:5500'], // Adicione sua URL da Vercel aqui
+    origin: ['https://portfoliobttrfly.vercel.app', 'http://127.0.0.1:5500'], // Adicione sua URL da Vercel aqui
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
