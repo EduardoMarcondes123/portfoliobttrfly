@@ -6,182 +6,228 @@
     <title>Painel da Chefe | Atelier Mariposa</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #fce4ec; color: #333; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; }
-        .painel-container { background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; margin-bottom: 30px; }
-        h2 { margin-top: 0; color: #d81b60; }
+        .cabecalho { text-align: center; margin-bottom: 30px; }
+        .cabecalho h1 { color: #d81b60; margin: 0; font-size: 32px; }
+        
+        .secao-admin { width: 100%; max-width: 500px; display: flex; flex-direction: column; align-items: center; margin-bottom: 40px; }
+        .painel-container { background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; text-align: center; margin-bottom: 20px; border-top: 5px solid #d81b60; }
+        
+        h2 { margin-top: 0; color: #333; font-size: 22px; }
         .form-grupo { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #555; }
         input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
         button.btn-salvar { background-color: #d81b60; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
         button.btn-salvar:hover { background-color: #ad1457; }
         .aviso { margin-top: 15px; font-size: 14px; font-weight: bold; }
         
         /* Estilos da Lista */
-        .lista-produtos { width: 100%; max-width: 500px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .lista-produtos { width: 100%; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; }
         .item-produto { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
+        .item-produto:last-child { border-bottom: none; }
         .item-info { display: flex; align-items: center; gap: 15px; text-align: left; }
         .item-info img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
         .item-text h4 { margin: 0; font-size: 14px; color: #333; }
         .item-text p { margin: 0; font-size: 12px; color: #d81b60; font-weight: bold; }
         .btn-excluir { background-color: #ff4c4c; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-excluir:hover { background-color: #cc0000; }
+
+        hr { border: 0; height: 2px; background-color: #f8bbd0; width: 80%; margin: 20px 0; }
     </style>
 </head>
 <body>
 
-    <div class="painel-container">
-        <h2>Painel da Chefe 🦋</h2>
-        <p>Cadastre uma nova joia no Atelier</p>
-
-        <form id="form-produto">
-            <div class="form-grupo">
-                <label for="nome">Nome do Produto:</label>
-                <input type="text" id="nome" placeholder="Ex: Chaveiro Borboleta Rosa" required>
-            </div>
-            <div class="form-grupo">
-                <label for="preco">Preço:</label>
-                <input type="text" id="preco" placeholder="Ex: R$ 15,00" required>
-            </div>
-            <div class="form-grupo">
-                <label for="imagem">Escolha a Foto:</label>
-                <input type="file" id="imagem" accept="image/*" required>
-            </div>
-            <button type="submit" class="btn-salvar" id="btn-salvar">Salvar no Banco de Dados</button>
-        </form>
-        <div class="aviso" id="mensagem-status"></div>
+    <div class="cabecalho">
+        <h1>Painel da Chefe 👑🦋</h1>
+        <p>Gerencie sua loja e seu portfólio</p>
     </div>
 
-    <div class="lista-produtos">
-        <h3 style="color: #d81b60; text-align: center; margin-top: 0;">Joias na Vitrine</h3>
-        <div id="container-lista">
-            <p style="text-align: center; font-size: 14px; color: #666;">Carregando produtos... ⏳</p>
+    <div class="secao-admin">
+        <div class="painel-container">
+            <h2>🛒 Vitrine da Lojinha</h2>
+            <form id="form-produto">
+                <div class="form-grupo">
+                    <label>Nome do Produto:</label>
+                    <input type="text" id="nome-produto" placeholder="Ex: Chaveiro Borboleta Rosa" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Preço:</label>
+                    <input type="text" id="preco-produto" placeholder="Ex: R$ 15,00" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Escolha a Foto:</label>
+                    <input type="file" id="imagem-produto" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn-salvar" id="btn-salvar-produto">Salvar na Lojinha</button>
+            </form>
+            <div class="aviso" id="msg-produto"></div>
+        </div>
+
+        <div class="lista-produtos">
+            <h3 style="color: #d81b60; text-align: center; margin-top: 0;">Itens à venda</h3>
+            <div id="lista-produtos-container"><p style="text-align: center; color: #666;">Carregando... ⏳</p></div>
+        </div>
+    </div>
+
+    <hr> <div class="secao-admin">
+        <div class="painel-container" style="border-top-color: #8e24aa;">
+            <h2>🎨 Galeria do Portfólio</h2>
+            <form id="form-portfolio">
+                <div class="form-grupo">
+                    <label>Título da Arte:</label>
+                    <input type="text" id="titulo-portfolio" placeholder="Ex: Encomenda da Maria" required>
+                </div>
+                <div class="form-grupo">
+                    <label>Escolha a Foto:</label>
+                    <input type="file" id="imagem-portfolio" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn-salvar" style="background-color: #8e24aa;" id="btn-salvar-portfolio">Salvar no Portfólio</button>
+            </form>
+            <div class="aviso" id="msg-portfolio"></div>
+        </div>
+
+        <div class="lista-produtos">
+            <h3 style="color: #8e24aa; text-align: center; margin-top: 0;">Artes no Site</h3>
+            <div id="lista-portfolio-container"><p style="text-align: center; color: #666;">Carregando... ⏳</p></div>
         </div>
     </div>
 
     <script>
-        const API_URL = "https://back-mariposa.onrender.com/api/produtos";
+        const API_PRODUTOS = "https://back-mariposa.onrender.com/api/produtos";
+        const API_PORTFOLIO = "https://back-mariposa.onrender.com/api/portfolio";
 
-        document.getElementById('form-produto').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const btnSalvar = document.getElementById('btn-salvar');
-            const mensagem = document.getElementById('mensagem-status');
-            
-            const nome = document.getElementById('nome').value;
-            const preco = document.getElementById('preco').value;
-            const arquivoFoto = document.getElementById('imagem').files[0];
+        // ==========================================
+        // O COMPRESSOR MÁGICO (Agora serve para os dois formulários!)
+        // ==========================================
+        function processarFotoEEnviar(arquivoFoto, urlAPI, dadosJSON, botao, elementoMensagem, callbackSucesso) {
+            botao.innerText = "Preparando a foto... ⏳";
+            elementoMensagem.innerText = "";
 
-            if (!arquivoFoto) {
-                mensagem.style.color = "red";
-                mensagem.innerText = "❌ Selecione uma foto!";
-                return;
-            }
-
-            btnSalvar.innerText = "Preparando a foto... ⏳";
-            mensagem.innerText = "";
-
-            // O Leitor Mágico
             const leitor = new FileReader();
-            
             leitor.onloadend = function(e) {
-                // Aqui começa a mágica do COMPRESSOR
                 const img = new Image();
                 img.src = e.target.result;
-
                 img.onload = async function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 600; // Largura máxima da foto
-                    const MAX_HEIGHT = 600; // Altura máxima da foto
-                    let width = img.width;
-                    let height = img.height;
+                    const MAX_WIDTH = 600; const MAX_HEIGHT = 600;
+                    let width = img.width; let height = img.height;
 
-                    // Calcula a proporção pra não distorcer a foto
-                    if (width > height) {
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
-                    } else {
-                        if (height > MAX_HEIGHT) {
-                            width *= MAX_HEIGHT / height;
-                            height = MAX_HEIGHT;
-                        }
-                    }
+                    if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
+                    else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
 
-                    canvas.width = width;
-                    canvas.height = height;
+                    canvas.width = width; canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // Transforma a foto reduzida em texto (com qualidade de 70% pra ficar leve)
-                    const fotoLeve = canvas.toDataURL('image/jpeg', 0.7);
+                    dadosJSON.imagem = canvas.toDataURL('image/jpeg', 0.7); // Adiciona a foto leve no pacote
+                    botao.innerText = "Salvando no Banco... 🚀";
 
-                    btnSalvar.innerText = "Salvando no Banco... 🚀";
-
-                    // Agora envia pro servidor
                     try {
-                        const resposta = await fetch(API_URL, {
+                        const resposta = await fetch(urlAPI, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ nome: nome, preco: preco, imagem: fotoLeve })
+                            body: JSON.stringify(dadosJSON)
                         });
 
                         if (resposta.ok) {
-                            mensagem.style.color = "green";
-                            mensagem.innerText = "✅ Joia cadastrada com sucesso!";
-                            document.getElementById('form-produto').reset();
-                            carregarLista();
+                            elementoMensagem.style.color = "green";
+                            elementoMensagem.innerText = "✅ Salvo com sucesso!";
+                            callbackSucesso();
                         } else {
-                            mensagem.style.color = "red";
-                            mensagem.innerText = "❌ Erro ao salvar.";
+                            elementoMensagem.style.color = "red";
+                            elementoMensagem.innerText = "❌ Erro ao salvar.";
                         }
                     } catch (error) {
-                        mensagem.style.color = "red";
-                        mensagem.innerText = "❌ Erro de conexão com o servidor.";
+                        elementoMensagem.style.color = "red";
+                        elementoMensagem.innerText = "❌ Erro de conexão com o servidor.";
                     } finally {
-                        btnSalvar.innerText = "Salvar no Banco de Dados";
+                        botao.innerText = "Salvar";
                     }
                 };
             };
-
-            // Manda o leitor ler a foto original
             leitor.readAsDataURL(arquivoFoto);
+        }
+
+        // ==========================================
+        // CÓDIGOS DA LOJINHA (PRODUTOS)
+        // ==========================================
+        document.getElementById('form-produto').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('nome-produto').value;
+            const preco = document.getElementById('preco-produto').value;
+            const foto = document.getElementById('imagem-produto').files[0];
+            const btn = document.getElementById('btn-salvar-produto');
+            const msg = document.getElementById('msg-produto');
+
+            if (!foto) return;
+            processarFotoEEnviar(foto, API_PRODUTOS, { nome: nome, preco: preco }, btn, msg, () => {
+                document.getElementById('form-produto').reset();
+                carregarProdutos();
+            });
         });
 
-        async function carregarLista() {
-            const container = document.getElementById('container-lista');
+        async function carregarProdutos() {
+            const container = document.getElementById('lista-produtos-container');
             try {
-                const resposta = await fetch(API_URL);
-                const produtos = await resposta.json();
-                container.innerHTML = "";
-                if (produtos.length === 0) {
-                    container.innerHTML = "<p style='text-align: center; font-size: 14px; color: #666;'>Nenhuma joia cadastrada.</p>";
-                    return;
-                }
-                produtos.forEach(produto => {
-                    const div = document.createElement('div');
-                    div.className = 'item-produto';
-                    div.innerHTML = `
-                        <div class="item-info">
-                            <img src="${produto.imagem}" alt="${produto.nome}">
-                            <div class="item-text">
-                                <h4>${produto.nome}</h4>
-                                <p>${produto.preco}</p>
-                            </div>
-                        </div>
-                        <button class="btn-excluir" onclick="excluirProduto('${produto._id}', '${produto.nome}')">Excluir</button>
-                    `;
-                    container.appendChild(div);
+                const res = await fetch(API_PRODUTOS);
+                const itens = await res.json();
+                container.innerHTML = itens.length === 0 ? "<p style='text-align:center;'>Nenhum item na loja.</p>" : "";
+                itens.forEach(item => {
+                    container.innerHTML += `
+                        <div class="item-produto">
+                            <div class="item-info"><img src="${item.imagem}"> <div class="item-text"><h4>${item.nome}</h4><p>${item.preco}</p></div></div>
+                            <button class="btn-excluir" onclick="excluirItem('${item._id}', '${item.nome}', API_PRODUTOS, carregarProdutos)">Excluir</button>
+                        </div>`;
                 });
-            } catch (error) { container.innerHTML = "<p style='text-align: center; color: red;'>Erro ao carregar a lista.</p>"; }
+            } catch (erro) { container.innerHTML = "<p>Erro ao carregar loja.</p>"; }
         }
 
-        async function excluirProduto(id, nome) {
+        // ==========================================
+        // CÓDIGOS DO PORTFÓLIO
+        // ==========================================
+        document.getElementById('form-portfolio').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const titulo = document.getElementById('titulo-portfolio').value;
+            const foto = document.getElementById('imagem-portfolio').files[0];
+            const btn = document.getElementById('btn-salvar-portfolio');
+            const msg = document.getElementById('msg-portfolio');
+
+            if (!foto) return;
+            processarFotoEEnviar(foto, API_PORTFOLIO, { titulo: titulo }, btn, msg, () => {
+                document.getElementById('form-portfolio').reset();
+                carregarPortfolio();
+            });
+        });
+
+        async function carregarPortfolio() {
+            const container = document.getElementById('lista-portfolio-container');
+            try {
+                const res = await fetch(API_PORTFOLIO);
+                const itens = await res.json();
+                container.innerHTML = itens.length === 0 ? "<p style='text-align:center;'>Nenhuma arte no portfólio.</p>" : "";
+                itens.forEach(item => {
+                    container.innerHTML += `
+                        <div class="item-produto">
+                            <div class="item-info"><img src="${item.imagem}"> <div class="item-text"><h4>${item.titulo}</h4></div></div>
+                            <button class="btn-excluir" onclick="excluirItem('${item._id}', '${item.titulo}', API_PORTFOLIO, carregarPortfolio)">Excluir</button>
+                        </div>`;
+                });
+            } catch (erro) { container.innerHTML = "<p>Erro ao carregar portfólio.</p>"; }
+        }
+
+        // ==========================================
+        // FUNÇÃO DE EXCLUIR REUTILIZÁVEL
+        // ==========================================
+        async function excluirItem(id, nome, urlAPI, funcaoAtualizar) {
             if (!confirm(`Tem certeza que deseja excluir "${nome}"?`)) return;
             try {
-                const resposta = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-                if (resposta.ok) { carregarLista(); } else { alert('❌ Erro ao excluir o produto.'); }
-            } catch (error) { alert('❌ Erro de conexão.'); }
+                const res = await fetch(`${urlAPI}/${id}`, { method: 'DELETE' });
+                if (res.ok) { funcaoAtualizar(); } else { alert('Erro ao excluir.'); }
+            } catch (erro) { alert('Erro de conexão.'); }
         }
 
-        carregarLista();
+        // Carrega tudo quando a página abre
+        carregarProdutos();
+        carregarPortfolio();
     </script>
 </body>
 </html>
