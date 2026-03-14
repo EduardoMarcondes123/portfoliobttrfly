@@ -142,7 +142,7 @@ body.dark-mode .btn-instagram:hover { background-color: #ffb7cd; color: #1a1a1a 
 }
 
 .btn-comprar { 
-    display: block; text-decoration: none; background-color: #Fa7f72; 
+    display: block; text-decoration: none; background-color: #FF69B4; 
     color: white !important; padding: 12px; border-radius: 10px; 
     width: 100%; font-weight: bold; transition: 0.3s; margin-top: 10px; 
 }
