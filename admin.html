@@ -6,7 +6,7 @@
     <title>Painel da Chefe | Atelier Mariposa</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #fce4ec; color: #333; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; }
-        .cabecalho { text-align: center; margin-bottom: 30px; }
+        .cabecalho { text-align: center; margin-bottom: 20px; }
         .cabecalho h1 { color: #d81b60; margin: 0; font-size: 32px; }
         
         /* TELA DE LOGIN */
@@ -17,6 +17,15 @@
         /* PAINEL (Escondido por padrão) */
         #painel-conteudo { display: none; width: 100%; max-width: 500px; flex-direction: column; align-items: center; }
         
+        /* ABAS */
+        .abas-admin { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
+        .btn-aba { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #f8bbd0; color: #ad1457; transition: 0.3s; }
+        .btn-aba.ativa { background-color: #d81b60; color: white; }
+        
+        .aba-conteudo { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .aba-conteudo.ativa { display: flex; }
+
+        /* FORMULÁRIOS E LISTAS */
         .painel-container { background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; text-align: center; margin-bottom: 20px; border-top: 5px solid #d81b60; }
         h2 { margin-top: 0; color: #333; font-size: 22px; }
         .form-grupo { margin-bottom: 20px; text-align: left; }
@@ -32,7 +41,6 @@
         .item-text h4 { margin: 0; font-size: 14px; color: #333; }
         .item-text p { margin: 0; font-size: 12px; color: #d81b60; font-weight: bold; }
         .btn-excluir { background-color: #ff4c4c; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        hr { border: 0; height: 2px; background-color: #f8bbd0; width: 80%; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -46,90 +54,116 @@
         <p>Digite a senha para gerenciar a loja:</p>
         <input type="password" id="senha-acesso" placeholder="Senha secreta">
         <button onclick="entrarNoPainel()">Entrar no Painel</button>
-        <p id="msg-login" style="color: red; font-size: 14px; margin-top: 10px;"></p>
+        <p id="msg-login" style="font-size: 14px; margin-top: 10px; font-weight: bold;"></p>
     </div>
 
     <div id="painel-conteudo">
         
-        <div class="painel-container">
-            <h2>🛒 Vitrine da Lojinha</h2>
-            <form id="form-produto">
-                <div class="form-grupo">
-                    <label>Nome do Produto:</label>
-                    <input type="text" id="nome-produto" required>
-                </div>
-                <div class="form-grupo">
-                    <label>Preço:</label>
-                    <input type="text" id="preco-produto" required>
-                </div>
-                <div class="form-grupo">
-                    <label>Escolha a Foto:</label>
-                    <input type="file" id="imagem-produto" accept="image/*" required>
-                </div>
-                <button type="submit" class="btn-salvar" id="btn-salvar-produto">Salvar na Lojinha</button>
-            </form>
-            <div class="aviso" id="msg-produto"></div>
+        <div class="abas-admin">
+            <button class="btn-aba ativa" id="btn-loja" onclick="mudarAba('loja')">🛒 Lojinha</button>
+            <button class="btn-aba" id="btn-portfolio" onclick="mudarAba('portfolio')" style="background-color: #e1bee7; color: #6a1b9a;">🎨 Portfólio</button>
         </div>
 
-        <div class="lista-produtos">
-            <h3 style="color: #d81b60; text-align: center; margin-top: 0;">Itens à venda</h3>
-            <div id="lista-produtos-container"><p style="text-align: center;">Carregando... ⏳</p></div>
+        <div id="conteudo-loja" class="aba-conteudo ativa">
+            <div class="painel-container">
+                <h2>🛒 Vitrine da Lojinha</h2>
+                <form id="form-produto">
+                    <div class="form-grupo"><label>Nome do Produto:</label><input type="text" id="nome-produto" required></div>
+                    <div class="form-grupo"><label>Preço:</label><input type="text" id="preco-produto" required></div>
+                    <div class="form-grupo"><label>Escolha a Foto:</label><input type="file" id="imagem-produto" accept="image/*" required></div>
+                    <button type="submit" class="btn-salvar" id="btn-salvar-produto">Salvar na Lojinha</button>
+                </form>
+                <div class="aviso" id="msg-produto"></div>
+            </div>
+            <div class="lista-produtos">
+                <h3 style="color: #d81b60; text-align: center; margin-top: 0;">Itens à venda</h3>
+                <div id="lista-produtos-container"><p style="text-align: center;">Carregando... ⏳</p></div>
+            </div>
         </div>
 
-        <hr>
-
-        <div class="painel-container" style="border-top-color: #8e24aa;">
-            <h2>🎨 Galeria do Portfólio</h2>
-            <form id="form-portfolio">
-                <div class="form-grupo">
-                    <label>Título da Arte:</label>
-                    <input type="text" id="titulo-portfolio" required>
-                </div>
-                <div class="form-grupo">
-                    <label>Escolha a Foto:</label>
-                    <input type="file" id="imagem-portfolio" accept="image/*" required>
-                </div>
-                <button type="submit" class="btn-salvar" style="background-color: #8e24aa;" id="btn-salvar-portfolio">Salvar no Portfólio</button>
-            </form>
-            <div class="aviso" id="msg-portfolio"></div>
+        <div id="conteudo-portfolio" class="aba-conteudo">
+            <div class="painel-container" style="border-top-color: #8e24aa;">
+                <h2>🎨 Galeria do Portfólio</h2>
+                <form id="form-portfolio">
+                    <div class="form-grupo"><label>Título da Arte:</label><input type="text" id="titulo-portfolio" required></div>
+                    <div class="form-grupo"><label>Escolha a Foto:</label><input type="file" id="imagem-portfolio" accept="image/*" required></div>
+                    <button type="submit" class="btn-salvar" style="background-color: #8e24aa;" id="btn-salvar-portfolio">Salvar no Portfólio</button>
+                </form>
+                <div class="aviso" id="msg-portfolio"></div>
+            </div>
+            <div class="lista-produtos">
+                <h3 style="color: #8e24aa; text-align: center; margin-top: 0;">Artes no Site</h3>
+                <div id="lista-portfolio-container"><p style="text-align: center;">Carregando... ⏳</p></div>
+            </div>
         </div>
 
-        <div class="lista-produtos">
-            <h3 style="color: #8e24aa; text-align: center; margin-top: 0;">Artes no Site</h3>
-            <div id="lista-portfolio-container"><p style="text-align: center;">Carregando... ⏳</p></div>
-        </div>
     </div>
 
     <script>
-        const API_PRODUTOS = "https://back-mariposa.onrender.com/api/produtos";
-        const API_PORTFOLIO = "https://back-mariposa.onrender.com/api/portfolio";
-        let senhaGlobal = ""; // Guarda a senha enquanto ela estiver na página
+        const API_URL_BASE = "https://back-mariposa.onrender.com/api";
+        let senhaGlobal = "";
 
         // ==========================================
-        // 1. SISTEMA DE LOGIN SIMPLES
+        // 1. SISTEMA DE LOGIN REAL (Verifica no Back-end)
         // ==========================================
-        function entrarNoPainel() {
+        async function entrarNoPainel() {
             const senhaDigitada = document.getElementById('senha-acesso').value;
+            const msg = document.getElementById('msg-login');
             if (!senhaDigitada) return;
             
-            senhaGlobal = senhaDigitada; // Salva na memória
-            
-            // Esconde o login e mostra o painel
-            document.getElementById('tela-login').style.display = 'none';
-            document.getElementById('painel-conteudo').style.display = 'flex';
-            
-            // Agora sim carrega a lista (não precisa de senha pra ver)
-            carregarProdutos();
-            carregarPortfolio();
+            msg.style.color = "#333";
+            msg.innerText = "Verificando senha... ⏳";
+
+            try {
+                const resposta = await fetch(`${API_URL_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ senha: senhaDigitada })
+                });
+
+                if (resposta.ok) {
+                    senhaGlobal = senhaDigitada; 
+                    document.getElementById('tela-login').style.display = 'none';
+                    document.getElementById('painel-conteudo').style.display = 'flex';
+                    carregarLista(`${API_URL_BASE}/produtos`, 'lista-produtos-container', true);
+                    carregarLista(`${API_URL_BASE}/portfolio`, 'lista-portfolio-container', false);
+                } else {
+                    msg.style.color = "red";
+                    msg.innerText = "❌ Senha Incorreta!";
+                }
+            } catch (error) {
+                msg.style.color = "red";
+                msg.innerText = "❌ Erro ao conectar no servidor.";
+            }
         }
 
         // ==========================================
-        // O COMPRESSOR MÁGICO (AGORA COM A SENHA ENVIADA JUNTO)
+        // 2. NAVEGAÇÃO ENTRE ABAS
         // ==========================================
-        function processarFotoEEnviar(arquivoFoto, urlAPI, dadosJSON, botao, elementoMensagem, callbackSucesso) {
+        function mudarAba(aba) {
+            document.getElementById('conteudo-loja').classList.remove('ativa');
+            document.getElementById('conteudo-portfolio').classList.remove('ativa');
+            document.getElementById('btn-loja').classList.remove('ativa');
+            document.getElementById('btn-portfolio').classList.remove('ativa');
+            document.getElementById('btn-portfolio').style.backgroundColor = '#e1bee7';
+            document.getElementById('btn-portfolio').style.color = '#6a1b9a';
+
+            document.getElementById('conteudo-' + aba).classList.add('ativa');
+            const btnAtivo = document.getElementById('btn-' + aba);
+            btnAtivo.classList.add('ativa');
+            
+            if (aba === 'portfolio') {
+                btnAtivo.style.backgroundColor = '#8e24aa';
+                btnAtivo.style.color = 'white';
+            }
+        }
+
+        // ==========================================
+        // 3. COMPRESSOR E FUNÇÕES REUTILIZÁVEIS
+        // ==========================================
+        function processarFotoEEnviar(arquivoFoto, urlAPI, dadosJSON, botao, elementoMensagem, callbackAtualizar) {
             botao.innerText = "Preparando a foto... ⏳";
             elementoMensagem.innerText = "";
-
             const leitor = new FileReader();
             leitor.onloadend = function(e) {
                 const img = new Image();
@@ -137,124 +171,73 @@
                 img.onload = async function() {
                     const canvas = document.createElement('canvas');
                     let width = img.width; let height = img.height;
-
                     if (width > height) { if (width > 600) { height *= 600 / width; width = 600; } } 
                     else { if (height > 600) { width *= 600 / height; height = 600; } }
-
                     canvas.width = width; canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
                     dadosJSON.imagem = canvas.toDataURL('image/jpeg', 0.7);
                     botao.innerText = "Salvando... 🚀";
-
                     try {
-                        const resposta = await fetch(urlAPI, {
+                        const res = await fetch(urlAPI, {
                             method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                'x-senha-admin': senhaGlobal // MANDA A SENHA AQUI!
-                            },
+                            headers: { 'Content-Type': 'application/json', 'x-senha-admin': senhaGlobal },
                             body: JSON.stringify(dadosJSON)
                         });
-
-                        if (resposta.ok) {
-                            elementoMensagem.style.color = "green";
-                            elementoMensagem.innerText = "✅ Salvo com sucesso!";
-                            callbackSucesso();
-                        } else if (resposta.status === 401) {
-                            elementoMensagem.style.color = "red";
-                            elementoMensagem.innerText = "❌ Senha Incorreta! Atualize a página e faça login novamente.";
-                        } else {
-                            elementoMensagem.style.color = "red";
-                            elementoMensagem.innerText = "❌ Erro ao salvar.";
-                        }
-                    } catch (error) {
-                        elementoMensagem.style.color = "red";
-                        elementoMensagem.innerText = "❌ Erro de conexão.";
-                    } finally {
-                        botao.innerText = "Salvar";
-                    }
+                        if (res.ok) {
+                            elementoMensagem.style.color = "green"; elementoMensagem.innerText = "✅ Salvo com sucesso!"; callbackAtualizar();
+                        } else { elementoMensagem.style.color = "red"; elementoMensagem.innerText = "❌ Erro ao salvar."; }
+                    } catch (error) { elementoMensagem.style.color = "red"; elementoMensagem.innerText = "❌ Erro de conexão."; } 
+                    finally { botao.innerText = "Salvar"; }
                 };
             };
             leitor.readAsDataURL(arquivoFoto);
         }
 
+        async function carregarLista(urlAPI, idContainer, ehProduto) {
+            const container = document.getElementById(idContainer);
+            const res = await fetch(urlAPI);
+            const itens = await res.json();
+            container.innerHTML = itens.length === 0 ? "<p>Vazio.</p>" : "";
+            itens.forEach(item => {
+                const texto = ehProduto ? `<p>${item.preco}</p>` : "";
+                const titulo = ehProduto ? item.nome : item.titulo;
+                container.innerHTML += `
+                    <div class="item-produto">
+                        <div class="item-info"><img src="${item.imagem}"> <div class="item-text"><h4>${titulo}</h4>${texto}</div></div>
+                        <button class="btn-excluir" onclick="excluirItem('${item._id}', '${urlAPI}', '${idContainer}', ${ehProduto})">Excluir</button>
+                    </div>`;
+            });
+        }
+
+        async function excluirItem(id, urlAPI, idContainer, ehProduto) {
+            if (!confirm(`Tem certeza que deseja excluir?`)) return;
+            try {
+                const res = await fetch(`${urlAPI}/${id}`, { method: 'DELETE', headers: { 'x-senha-admin': senhaGlobal } });
+                if (res.ok) { carregarLista(urlAPI, idContainer, ehProduto); } 
+                else { alert('Erro ao excluir.'); }
+            } catch (erro) { alert('Erro de conexão.'); }
+        }
+
         // ==========================================
-        // CÓDIGOS DA LOJINHA (PRODUTOS)
+        // 4. EVENTOS DOS FORMULÁRIOS
         // ==========================================
         document.getElementById('form-produto').addEventListener('submit', function(e) {
             e.preventDefault();
-            const nome = document.getElementById('nome-produto').value;
-            const preco = document.getElementById('preco-produto').value;
             const foto = document.getElementById('imagem-produto').files[0];
-            processarFotoEEnviar(foto, API_PRODUTOS, { nome: nome, preco: preco }, document.getElementById('btn-salvar-produto'), document.getElementById('msg-produto'), () => {
-                document.getElementById('form-produto').reset();
-                carregarProdutos();
+            processarFotoEEnviar(foto, `${API_URL_BASE}/produtos`, { nome: document.getElementById('nome-produto').value, preco: document.getElementById('preco-produto').value }, document.getElementById('btn-salvar-produto'), document.getElementById('msg-produto'), () => {
+                document.getElementById('form-produto').reset(); carregarLista(`${API_URL_BASE}/produtos`, 'lista-produtos-container', true);
             });
         });
 
-        async function carregarProdutos() {
-            const container = document.getElementById('lista-produtos-container');
-            const res = await fetch(API_PRODUTOS);
-            const itens = await res.json();
-            container.innerHTML = itens.length === 0 ? "<p>Vazio.</p>" : "";
-            itens.forEach(item => {
-                container.innerHTML += `
-                    <div class="item-produto">
-                        <div class="item-info"><img src="${item.imagem}"> <div class="item-text"><h4>${item.nome}</h4><p>${item.preco}</p></div></div>
-                        <button class="btn-excluir" onclick="excluirItem('${item._id}', API_PRODUTOS, carregarProdutos)">Excluir</button>
-                    </div>`;
-            });
-        }
-
-        // ==========================================
-        // CÓDIGOS DO PORTFÓLIO
-        // ==========================================
         document.getElementById('form-portfolio').addEventListener('submit', function(e) {
             e.preventDefault();
-            const titulo = document.getElementById('titulo-portfolio').value;
             const foto = document.getElementById('imagem-portfolio').files[0];
-            processarFotoEEnviar(foto, API_PORTFOLIO, { titulo: titulo }, document.getElementById('btn-salvar-portfolio'), document.getElementById('msg-portfolio'), () => {
-                document.getElementById('form-portfolio').reset();
-                carregarPortfolio();
+            processarFotoEEnviar(foto, `${API_URL_BASE}/portfolio`, { titulo: document.getElementById('titulo-portfolio').value }, document.getElementById('btn-salvar-portfolio'), document.getElementById('msg-portfolio'), () => {
+                document.getElementById('form-portfolio').reset(); carregarLista(`${API_URL_BASE}/portfolio`, 'lista-portfolio-container', false);
             });
         });
-
-        async function carregarPortfolio() {
-            const container = document.getElementById('lista-portfolio-container');
-            const res = await fetch(API_PORTFOLIO);
-            const itens = await res.json();
-            container.innerHTML = itens.length === 0 ? "<p>Vazio.</p>" : "";
-            itens.forEach(item => {
-                container.innerHTML += `
-                    <div class="item-produto">
-                        <div class="item-info"><img src="${item.imagem}"> <div class="item-text"><h4>${item.titulo}</h4></div></div>
-                        <button class="btn-excluir" onclick="excluirItem('${item._id}', API_PORTFOLIO, carregarPortfolio)">Excluir</button>
-                    </div>`;
-            });
-        }
-
-        // ==========================================
-        // FUNÇÃO DE EXCLUIR PROTEGIDA
-        // ==========================================
-        async function excluirItem(id, urlAPI, funcaoAtualizar) {
-            if (!confirm(`Tem certeza que deseja excluir?`)) return;
-            try {
-                const res = await fetch(`${urlAPI}/${id}`, { 
-                    method: 'DELETE',
-                    headers: { 'x-senha-admin': senhaGlobal } // MANDA A SENHA AQUI TAMBÉM
-                });
-                
-                if (res.ok) { 
-                    funcaoAtualizar(); 
-                } else if (res.status === 401) {
-                    alert('❌ Acesso Negado: Senha incorreta!');
-                } else {
-                    alert('Erro ao excluir.');
-                }
-            } catch (erro) { alert('Erro de conexão.'); }
-        }
     </script>
 </body>
 </html>

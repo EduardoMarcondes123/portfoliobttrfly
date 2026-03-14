@@ -77,5 +77,19 @@ app.delete('/api/portfolio/:id', verificarSenha, async (req, res) => {
     } catch (error) { res.status(500).json({ erro: "Erro" }); }
 });
 
+// ==========================================
+// ROTA DE LOGIN (Verifica a senha na portaria)
+// ==========================================
+app.post('/api/login', (req, res) => {
+    const senhaRecebida = req.body.senha;
+    const senhaCorreta = process.env.SENHA_ADMIN;
+
+    if (senhaRecebida === senhaCorreta) {
+        res.json({ mensagem: "✅ Acesso liberado!" });
+    } else {
+        res.status(401).json({ erro: "❌ Senha incorreta!" });
+    }
+});
+
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`🚀 Servidor rodando na porta ${PORTA} com Segurança Ativada!`));
