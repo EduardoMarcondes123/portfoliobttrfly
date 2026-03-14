@@ -1,17 +1,7 @@
 // ==========================================
-// 1. NAVEGAÇÃO ENTRE ABAS
+// 1. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
 // ==========================================
-// Oculta todas as abas e mostra apenas a que o usuário clicou
-function abrirAba(nomeAba) {
-    document.querySelectorAll('.aba').forEach(aba => aba.classList.remove('ativa'));
-    const alvo = document.getElementById('aba-' + nomeAba);
-    if (alvo) alvo.classList.add('ativa');
-    window.scrollTo(0, 0); // Joga a tela pro topo ao trocar de aba
-}
-
-// ==========================================
-// 2. CONFIGURAÇÃO DO MODAL (GALERIA) E TEMA
-// ==========================================
+const API_URL = "https://back-mariposa.onrender.com/api/produtos";
 const modal = document.getElementById("modal-container");
 const modalImg = document.getElementById("img-ampliada");
 const captionText = document.getElementById("caption");
@@ -19,28 +9,80 @@ const themeToggle = document.getElementById("theme-toggle");
 let imagens = [];
 let indiceAtual = 0;
 
+// ==========================================
+// 2. NAVEGAÇÃO ENTRE ABAS
+// ==========================================
+function abrirAba(nomeAba) {
+    document.querySelectorAll('.aba').forEach(aba => aba.classList.remove('ativa'));
+    const alvo = document.getElementById('aba-' + nomeAba);
+    if (alvo) alvo.classList.add('ativa');
+    window.scrollTo(0, 0);
+}
+
+// ==========================================
+// 3. BUSCA DINÂMICA DE PRODUTOS (RENDER + MONGO)
+// ==========================================
+async function carregarProdutosDoBanco() {
+    const grid = document.getElementById("grid-produtos");
+    if (!grid) return;
+
+    try {
+        const resposta = await fetch(API_URL);
+        const produtos = await resposta.json();
+
+        grid.innerHTML = ""; // Limpa o "Carregando..."
+
+        if (produtos.length === 0) {
+            grid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Nenhuma joia no momento, volte logo! 🌸</p>";
+            return;
+        }
+
+        produtos.forEach(produto => {
+            const card = document.createElement("div");
+            card.className = "produto-card";
+
+            const msgWhats = encodeURIComponent(`Oi! Vi no site e tenho interesse no ${produto.nome}`);
+            const linkWhats = `https://wa.me/5511918491312?text=${msgWhats}`;
+
+            card.innerHTML = `
+                <img src="${produto.imagem}" alt="${produto.nome}">
+                <h3>${produto.nome}</h3>
+                <p class="preco">${produto.preco}</p>
+                <a href="${linkWhats}" target="_blank" class="btn-comprar">Comprar via WhatsApp</a>
+            `;
+            grid.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Erro ao carregar produtos:", error);
+        grid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>O Atelier está acordando... Tente atualizar em instantes! 🦋</p>";
+    }
+}
+
+// ==========================================
+// 4. INICIALIZAÇÃO E MODAL (GALERIA)
+// ==========================================
 document.addEventListener("DOMContentLoaded", function() {
-    // Pega todas as imagens do portfólio
+    // Carrega os produtos do banco
+    carregarProdutosDoBanco();
+
+    // Galeria de Fotos
     imagens = document.querySelectorAll(".gallery-item img");
-    
-    // Configura o clique em cada imagem para abrir o Modal
     imagens.forEach((img, index) => {
         img.onclick = function() {
             modal.style.display = "flex";
-            themeToggle.style.visibility = 'hidden'; // Esconde o botão de tema pra não atrapalhar a foto
+            themeToggle.style.visibility = 'hidden';
             modalImg.src = this.src;
             captionText.innerHTML = this.alt;
             indiceAtual = index;
         }
     });
 
-    // Fechar Modal no X
     document.querySelector(".close-button").onclick = () => {
         modal.style.display = "none";
         themeToggle.style.visibility = 'visible';
     };
 
-    // Fechar Modal clicando fora da imagem
     window.onclick = (e) => { 
         if (e.target == modal) {
             modal.style.display = "none";
@@ -55,70 +97,30 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 });
 
-// ==========================================
-// 3. CONTROLE DE SETAS DO MODAL
-// ==========================================
-// Passa pra próxima foto ou volta pra anterior
 function mudarImagem(direcao) {
     indiceAtual += direcao;
-    // Lógica para dar a volta na galeria
     if (indiceAtual >= imagens.length) indiceAtual = 0;
     if (indiceAtual < 0) indiceAtual = imagens.length - 1;
-    
     modalImg.src = imagens[indiceAtual].src;
     captionText.innerHTML = imagens[indiceAtual].alt;
 }
 
 // ==========================================
-// 4. BLINDAGEM DE ALTA SEGURANÇA (DEVSECOPS)
+// 5. BLINDAGEM DE ALTA SEGURANÇA
 // ==========================================
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
 
-// Bloqueia o botão direito do mouse (Context Menu)
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
-
-// Bloqueia arrastar e soltar (Drag & Drop)
-document.addEventListener('dragstart', function(e) {
-    e.preventDefault();
-});
-
-// Bloqueia atalhos de teclado maliciosos e ferramentas de desenvolvedor
 document.addEventListener('keydown', function(e) {
-    // F12
-    if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-    }
-    // Ctrl+Shift+I / J / C (Inspecionar / Console)
-    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
-        e.preventDefault();
-        return false;
-    }
-    // Ctrl+U (Ver código-fonte)
-    if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-        e.preventDefault();
-        return false;
-    }
-    // Ctrl+S (Salvar página inteira)
-    if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
-        e.preventDefault();
-        return false;
-    }
-    // Ctrl+P / Cmd+P (Imprimir página em PDF para roubar arte)
-    if ((e.ctrlKey || e.metaKey) && (e.key === 'P' || e.key === 'p')) {
-        e.preventDefault();
-        return false;
-    }
+    if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) e.preventDefault();
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'S')) e.preventDefault();
+    if ((e.ctrlKey || e.metaKey) && e.key === 'P') e.preventDefault();
 });
 
-// Esvazia a área de transferência se tentarem dar Ctrl+C
 document.addEventListener('copy', function(e) {
     e.clipboardData.setData('text/plain', 'As artes deste site são protegidas. Apoie o artista independente!');
     e.preventDefault();
 });
 
-// Bloqueia recorte (Ctrl+X)
-document.addEventListener('cut', function(e) {
-    e.preventDefault();
-});
+document.addEventListener('cut', e => e.preventDefault());
