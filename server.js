@@ -45,6 +45,17 @@ app.post('/api/produtos', async (req, res) => {
     }
 });
 
+// Rota para EXCLUIR um produto (Deleta do banco de dados)
+app.delete('/api/produtos/:id', async (req, res) => {
+    try {
+        const idDoProduto = req.params.id;
+        await Produto.findByIdAndDelete(idDoProduto); // Procura pelo ID e apaga
+        res.json({ mensagem: "Produto excluído com sucesso! 🗑️" });
+    } catch (error) {
+        res.status(500).json({ erro: "Erro ao excluir o produto" });
+    }
+});
+
 // ==========================================
 // LIGANDO O MOTOR
 // ==========================================
