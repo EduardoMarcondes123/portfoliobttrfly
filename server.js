@@ -6,60 +6,85 @@ const mongoose = require('mongoose');
 const app = express();
 
 app.use(cors());
+// Permite receber fotos convertidas em texto de até 10MB
 app.use(express.json({ limit: '10mb' }));
 
-// Conectando no MongoDB usando a senha que está escondida no .env
+// Conectando no MongoDB
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('✅ Banco de Dados conectado! O Cofre está aberto! 🦋'))
     .catch((err) => console.log('❌ Erro ao conectar no Banco:', err));
 
-// Criando a regra de como um Produto deve ser salvo
+// ==========================================
+// 1. MODELOS (As gavetas do cofre)
+// ==========================================
+
+// Gaveta da Lojinha
 const Produto = mongoose.model('Produto', new mongoose.Schema({
     nome: String,
     preco: String,
     imagem: String
 }));
 
-// ==========================================
-// ROTAS DA API
-// ==========================================
+// Gaveta do Portfólio (Só precisa do título da arte e da imagem)
+const Portfolio = mongoose.model('Portfolio', new mongoose.Schema({
+    titulo: String,
+    imagem: String
+}));
 
-// Rota para MOSTRAR os produtos (Lê do banco e manda pro site)
+// ==========================================
+// 2. ROTAS DA LOJINHA (PRODUTOS)
+// ==========================================
 app.get('/api/produtos', async (req, res) => {
     try {
-        const produtos = await Produto.find(); // Puxa tudo do banco
+        const produtos = await Produto.find();
         res.json(produtos);
-    } catch (error) {
-        res.status(500).json({ erro: "Erro ao buscar produtos" });
-    }
+    } catch (error) { res.status(500).json({ erro: "Erro ao buscar produtos" }); }
 });
 
-// Rota para ADICIONAR um novo produto (Vem do painel e salva no banco)
 app.post('/api/produtos', async (req, res) => {
     try {
-        const novoProduto = new Produto(req.body); // Pega os dados que vieram do formulário
-        await novoProduto.save(); // Salva no Cofre (MongoDB)
+        const novoProduto = new Produto(req.body);
+        await novoProduto.save();
         res.status(201).json({ mensagem: "Produto salvo com sucesso! 🦋", produto: novoProduto });
-    } catch (error) {
-        res.status(500).json({ erro: "Erro ao salvar o produto" });
-    }
+    } catch (error) { res.status(500).json({ erro: "Erro ao salvar o produto" }); }
 });
 
-// Rota para EXCLUIR um produto (Deleta do banco de dados)
 app.delete('/api/produtos/:id', async (req, res) => {
     try {
-        const idDoProduto = req.params.id;
-        await Produto.findByIdAndDelete(idDoProduto); // Procura pelo ID e apaga
+        await Produto.findByIdAndDelete(req.params.id);
         res.json({ mensagem: "Produto excluído com sucesso! 🗑️" });
-    } catch (error) {
-        res.status(500).json({ erro: "Erro ao excluir o produto" });
-    }
+    } catch (error) { res.status(500).json({ erro: "Erro ao excluir o produto" }); }
+});
+
+// ==========================================
+// 3. ROTAS DO PORTFÓLIO (NOVO!)
+// ==========================================
+app.get('/api/portfolio', async (req, res) => {
+    try {
+        const artes = await Portfolio.find();
+        res.json(artes);
+    } catch (error) { res.status(500).json({ erro: "Erro ao buscar portfólio" }); }
+});
+
+app.post('/api/portfolio', async (req, res) => {
+    try {
+        const novaArte = new Portfolio(req.body);
+        await novaArte.save();
+        res.status(201).json({ mensagem: "Arte salva no portfólio! 🎨", arte: novaArte });
+    } catch (error) { res.status(500).json({ erro: "Erro ao salvar a arte" }); }
+});
+
+app.delete('/api/portfolio/:id', async (req, res) => {
+    try {
+        await Portfolio.findByIdAndDelete(req.params.id);
+        res.json({ mensagem: "Arte excluída do portfólio! 🗑️" });
+    } catch (error) { res.status(500).json({ erro: "Erro ao excluir a arte" }); }
 });
 
 // ==========================================
 // LIGANDO O MOTOR
 // ==========================================
-const PORTA = 3000; // O Render pode mudar isso automaticamente depois
+const PORTA = 3000;
 app.listen(PORTA, () => {
     console.log(`🚀 Foguete não tem ré! Servidor rodando na porta ${PORTA}`);
 });
