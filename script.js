@@ -2,6 +2,8 @@
 // 1. CONFIGURAÇÕES E VARIÁVEIS GLOBAIS
 // ==========================================
 const API_URL = "https://back-mariposa.onrender.com/api/produtos";
+const API_PORTFOLIO = "https://back-mariposa.onrender.com/api/portfolio"; // A nova gaveta!
+
 const modal = document.getElementById("modal-container");
 const modalImg = document.getElementById("img-ampliada");
 const captionText = document.getElementById("caption");
@@ -20,7 +22,7 @@ function abrirAba(nomeAba) {
 }
 
 // ==========================================
-// 3. BUSCA DINÂMICA DE PRODUTOS (RENDER + MONGO)
+// 3. BUSCA DINÂMICA DA LOJA E DO PORTFÓLIO
 // ==========================================
 async function carregarProdutosDoBanco() {
     const grid = document.getElementById("grid-produtos");
@@ -29,8 +31,7 @@ async function carregarProdutosDoBanco() {
     try {
         const resposta = await fetch(API_URL);
         const produtos = await resposta.json();
-
-        grid.innerHTML = ""; // Limpa o "Carregando..."
+        grid.innerHTML = ""; 
 
         if (produtos.length === 0) {
             grid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Nenhuma joia no momento, volte logo! 🌸</p>";
@@ -52,22 +53,46 @@ async function carregarProdutosDoBanco() {
             `;
             grid.appendChild(card);
         });
-
     } catch (error) {
-        console.error("Erro ao carregar produtos:", error);
         grid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>O Atelier está acordando... Tente atualizar em instantes! 🦋</p>";
     }
 }
 
-// ==========================================
-// 4. INICIALIZAÇÃO E MODAL (GALERIA)
-// ==========================================
-document.addEventListener("DOMContentLoaded", function() {
-    // Carrega os produtos do banco
-    carregarProdutosDoBanco();
+async function carregarPortfolioDoBanco() {
+    const grid = document.getElementById("grid-portfolio");
+    if (!grid) return;
 
-    // Galeria de Fotos
+    try {
+        const resposta = await fetch(API_PORTFOLIO);
+        const artes = await resposta.json();
+        grid.innerHTML = "";
+
+        if (artes.length === 0) {
+            grid.innerHTML = "<p style='text-align: center; width: 100%;'>O portfólio está sendo atualizado. Volte em breve! 🎨</p>";
+            return;
+        }
+
+        artes.forEach((arte) => {
+            const item = document.createElement("div");
+            item.className = "gallery-item";
+            item.innerHTML = `<img src="${arte.imagem}" alt="${arte.titulo}">`;
+            grid.appendChild(item);
+        });
+
+        // Chama a função para ativar o clique nas fotos novas
+        configurarModal();
+
+    } catch (error) {
+        grid.innerHTML = "<p style='text-align: center; width: 100%;'>Erro ao carregar as artes. Tente atualizar! 🦋</p>";
+    }
+}
+
+// ==========================================
+// 4. LÓGICA DO MODAL (GALERIA)
+// ==========================================
+function configurarModal() {
     imagens = document.querySelectorAll(".gallery-item img");
+    
     imagens.forEach((img, index) => {
         img.onclick = function() {
             modal.style.display = "flex";
@@ -77,7 +102,26 @@ document.addEventListener("DOMContentLoaded", function() {
             indiceAtual = index;
         }
     });
+}
 
+function mudarImagem(direcao) {
+    if (imagens.length === 0) return;
+    indiceAtual += direcao;
+    if (indiceAtual >= imagens.length) indiceAtual = 0;
+    if (indiceAtual < 0) indiceAtual = imagens.length - 1;
+    modalImg.src = imagens[indiceAtual].src;
+    captionText.innerHTML = imagens[indiceAtual].alt;
+}
+
+// ==========================================
+// 5. INICIALIZAÇÃO DA PÁGINA E BLINDAGEM
+// ==========================================
+document.addEventListener("DOMContentLoaded", function() {
+    // Carrega tudo do banco assim que a página abre
+    carregarProdutosDoBanco();
+    carregarPortfolioDoBanco();
+
+    // Botões de fechar do modal
     document.querySelector(".close-button").onclick = () => {
         modal.style.display = "none";
         themeToggle.style.visibility = 'visible';
@@ -97,30 +141,17 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 });
 
-function mudarImagem(direcao) {
-    indiceAtual += direcao;
-    if (indiceAtual >= imagens.length) indiceAtual = 0;
-    if (indiceAtual < 0) indiceAtual = imagens.length - 1;
-    modalImg.src = imagens[indiceAtual].src;
-    captionText.innerHTML = imagens[indiceAtual].alt;
-}
-
-// ==========================================
-// 5. BLINDAGEM DE ALTA SEGURANÇA
-// ==========================================
+// Blindagem de Segurança (DevSecOps)
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('dragstart', e => e.preventDefault());
-
 document.addEventListener('keydown', function(e) {
     if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) e.preventDefault();
     if (e.ctrlKey && (e.key === 'U' || e.key === 'S')) e.preventDefault();
     if ((e.ctrlKey || e.metaKey) && e.key === 'P') e.preventDefault();
 });
-
 document.addEventListener('copy', function(e) {
     e.clipboardData.setData('text/plain', 'As artes deste site são protegidas. Apoie o artista independente!');
     e.preventDefault();
 });
-
 document.addEventListener('cut', e => e.preventDefault());
