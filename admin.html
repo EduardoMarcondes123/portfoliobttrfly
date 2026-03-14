@@ -5,44 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel da Chefe | Atelier Mariposa</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fce4ec;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-            margin: 0;
-        }
-        .painel-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #fce4ec; color: #333; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; margin: 0; }
+        .painel-container { background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; margin-bottom: 30px; }
         h2 { margin-top: 0; color: #d81b60; }
         .form-grupo { margin-bottom: 20px; text-align: left; }
         label { display: block; font-weight: bold; margin-bottom: 5px; }
-        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
         button.btn-salvar { background-color: #d81b60; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
         button.btn-salvar:hover { background-color: #ad1457; }
         .aviso { margin-top: 15px; font-size: 14px; font-weight: bold; }
         
-        /* Estilos da Lista de Produtos */
+        /* Estilos da Lista */
         .lista-produtos { width: 100%; max-width: 500px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .item-produto { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
-        .item-produto:last-child { border-bottom: none; }
         .item-info { display: flex; align-items: center; gap: 15px; text-align: left; }
         .item-info img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
         .item-text h4 { margin: 0; font-size: 14px; color: #333; }
         .item-text p { margin: 0; font-size: 12px; color: #d81b60; font-weight: bold; }
         .btn-excluir { background-color: #ff4c4c; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-excluir:hover { background-color: #cc0000; }
     </style>
 </head>
 <body>
@@ -61,8 +41,8 @@
                 <input type="text" id="preco" placeholder="Ex: R$ 15,00" required>
             </div>
             <div class="form-grupo">
-                <label for="imagem">Link da Imagem:</label>
-                <input type="url" id="imagem" placeholder="Cole o link da foto aqui" required>
+                <label for="imagem">Escolha a Foto:</label>
+                <input type="file" id="imagem" accept="image/*" required>
             </div>
             <button type="submit" class="btn-salvar" id="btn-salvar">Salvar no Banco de Dados</button>
         </form>
@@ -79,57 +59,68 @@
     <script>
         const API_URL = "https://back-mariposa.onrender.com/api/produtos";
 
-        // 1. CADASTRAR PRODUTO
-        document.getElementById('form-produto').addEventListener('submit', async function(event) {
+        document.getElementById('form-produto').addEventListener('submit', function(event) {
             event.preventDefault();
             const btnSalvar = document.getElementById('btn-salvar');
             const mensagem = document.getElementById('mensagem-status');
             
             const nome = document.getElementById('nome').value;
             const preco = document.getElementById('preco').value;
-            const imagem = document.getElementById('imagem').value;
+            const arquivoFoto = document.getElementById('imagem').files[0];
 
-            btnSalvar.innerText = "Salvando... ⏳";
+            if (!arquivoFoto) {
+                mensagem.style.color = "red";
+                mensagem.innerText = "❌ Selecione uma foto!";
+                return;
+            }
+
+            btnSalvar.innerText = "Convertendo foto e salvando... ⏳";
             mensagem.innerText = "";
 
-            try {
-                const resposta = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nome, preco, imagem })
-                });
+            // O Leitor Mágico que transforma a foto em texto
+            const leitor = new FileReader();
+            
+            leitor.onloadend = async function() {
+                const fotoEmTexto = leitor.result; // Essa é a foto convertida
 
-                if (resposta.ok) {
-                    mensagem.style.color = "green";
-                    mensagem.innerText = "✅ Joia cadastrada com sucesso!";
-                    document.getElementById('form-produto').reset();
-                    carregarLista(); // Atualiza a lista na hora!
-                } else {
+                try {
+                    const resposta = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nome: nome, preco: preco, imagem: fotoEmTexto })
+                    });
+
+                    if (resposta.ok) {
+                        mensagem.style.color = "green";
+                        mensagem.innerText = "✅ Joia cadastrada com sucesso!";
+                        document.getElementById('form-produto').reset();
+                        carregarLista();
+                    } else {
+                        mensagem.style.color = "red";
+                        mensagem.innerText = "❌ Erro ao salvar.";
+                    }
+                } catch (error) {
                     mensagem.style.color = "red";
-                    mensagem.innerText = "❌ Erro ao salvar.";
+                    mensagem.innerText = "❌ Erro de conexão com o servidor.";
+                } finally {
+                    btnSalvar.innerText = "Salvar no Banco de Dados";
                 }
-            } catch (error) {
-                mensagem.style.color = "red";
-                mensagem.innerText = "❌ Erro de conexão com o servidor.";
-            } finally {
-                btnSalvar.innerText = "Salvar no Banco de Dados";
-            }
+            };
+
+            // Manda o leitor ler a foto
+            leitor.readAsDataURL(arquivoFoto);
         });
 
-        // 2. CARREGAR A LISTA DE PRODUTOS
         async function carregarLista() {
             const container = document.getElementById('container-lista');
             try {
                 const resposta = await fetch(API_URL);
                 const produtos = await resposta.json();
-
-                container.innerHTML = ""; // Limpa o "Carregando..."
-
+                container.innerHTML = "";
                 if (produtos.length === 0) {
-                    container.innerHTML = "<p style='text-align: center; font-size: 14px; color: #666;'>Nenhuma joia cadastrada ainda.</p>";
+                    container.innerHTML = "<p style='text-align: center; font-size: 14px; color: #666;'>Nenhuma joia cadastrada.</p>";
                     return;
                 }
-
                 produtos.forEach(produto => {
                     const div = document.createElement('div');
                     div.className = 'item-produto';
@@ -145,33 +136,17 @@
                     `;
                     container.appendChild(div);
                 });
-            } catch (error) {
-                container.innerHTML = "<p style='text-align: center; color: red;'>Erro ao carregar a lista.</p>";
-            }
+            } catch (error) { container.innerHTML = "<p style='text-align: center; color: red;'>Erro ao carregar a lista.</p>"; }
         }
 
-        // 3. EXCLUIR PRODUTO
         async function excluirProduto(id, nome) {
-            const confirmacao = confirm(`Tem certeza que deseja excluir "${nome}"?`);
-            if (!confirmacao) return; // Se ela clicar em "Cancelar", não faz nada
-
+            if (!confirm(`Tem certeza que deseja excluir "${nome}"?`)) return;
             try {
-                const resposta = await fetch(`${API_URL}/${id}`, {
-                    method: 'DELETE'
-                });
-
-                if (resposta.ok) {
-                    alert('🗑️ Produto excluído com sucesso!');
-                    carregarLista(); // Atualiza a lista para o produto sumir
-                } else {
-                    alert('❌ Erro ao excluir o produto.');
-                }
-            } catch (error) {
-                alert('❌ Erro de conexão com o servidor.');
-            }
+                const resposta = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                if (resposta.ok) { carregarLista(); } else { alert('❌ Erro ao excluir o produto.'); }
+            } catch (error) { alert('❌ Erro de conexão.'); }
         }
 
-        // Carrega a lista assim que ela abrir o painel
         carregarLista();
     </script>
 </body>
