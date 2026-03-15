@@ -84,10 +84,11 @@ app.post('/api/produtos', verificarToken, async (req, res) => {
     res.status(201).json({ mensagem: "Salvo!" });
 });
 
-// NOVIDADE: ROTA PARA ATUALIZAR (MOVER) O PRODUTO
+// ROTA ATUALIZADA: AGORA EDITA TUDO (NOME, PREÇO E SESSÃO)
 app.put('/api/produtos/:id', verificarToken, async (req, res) => {
-    await Produto.findByIdAndUpdate(req.params.id, { sessao: req.body.sessao });
-    res.json({ mensagem: "Produto movido com sucesso!" });
+    const { nome, preco, sessao } = req.body;
+    await Produto.findByIdAndUpdate(req.params.id, { nome, preco, sessao });
+    res.json({ mensagem: "Produto atualizado com sucesso!" });
 });
 
 app.delete('/api/produtos/:id', verificarToken, async (req, res) => {
