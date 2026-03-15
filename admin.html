@@ -18,16 +18,13 @@
         
         .cabecalho h1 { color: var(--primaria); margin-bottom: 30px; font-size: 32px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
 
-        /* TELA DE LOGIN */
         #tela-login { width: 100%; max-width: 400px; background: var(--branco); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; border-top: 5px solid var(--primaria); }
         #tela-login input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; text-align: center; font-size: 16px; }
         #tela-login button { background-color: var(--primaria); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
         #tela-login button:hover { background-color: var(--primaria-hover); }
 
-        /* PAINEL PRINCIPAL */
         #painel-conteudo { display: none; width: 100%; max-width: 600px; flex-direction: column; align-items: center; }
 
-        /* NAVEGAÇÃO POR ABAS */
         .abas-admin { display: flex; gap: 10px; margin-bottom: 25px; width: 100%; }
         .btn-aba { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #f8bbd0; color: var(--primaria-hover); transition: 0.3s; }
         .btn-aba.ativa { background-color: var(--primaria); color: white; box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3); }
@@ -38,18 +35,21 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CONTAINERS E FORMULÁRIOS */
         .card { background: var(--branco); padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border-top: 5px solid var(--primaria); }
         .card-port { border-top-color: var(--secundaria); }
         
         .form-grupo { margin-bottom: 15px; text-align: left; }
         label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
-        input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        input[type="text"], input[type="file"], select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
         
-        .btn-salvar { background-color: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        .btn-salvar { background-color: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: 0.2s; }
+        .btn-salvar:hover { background-color: var(--primaria-hover); }
         .btn-salvar-port { background-color: var(--secundaria); }
 
-        /* LISTAGEM */
+        .lista-sessoes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .badge-sessao { background: #fce4ec; border: 1px solid var(--primaria); color: var(--primaria); padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .badge-sessao span { cursor: pointer; color: red; font-weight: bold; }
+
         .lista-itens { background: var(--branco); border-radius: 15px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; }
         .item:last-child { border-bottom: none; }
@@ -57,6 +57,13 @@
         .item-info img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
         .item-text h4 { margin: 0; font-size: 15px; }
         .item-text p { margin: 0; font-size: 13px; color: var(--primaria); font-weight: bold; }
+        
+        /* ESTILOS DO NOVO MOVEDOR */
+        .box-mover { margin-top: 5px; display: flex; gap: 5px; }
+        .box-mover select { padding: 4px; font-size: 12px; border-radius: 4px; border: 1px solid #ccc; }
+        .btn-mover { background: var(--secundaria); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; padding: 4px 10px; font-weight:bold; transition: 0.2s; }
+        .btn-mover:hover { background: #6a1b9a; }
+
         .btn-excluir { background: #ffeded; color: #ff4c4c; border: 1px solid #ff4c4c; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.2s; }
         .btn-excluir:hover { background: #ff4c4c; color: white; }
     </style>
@@ -82,10 +89,27 @@
         </div>
 
         <div id="aba-loja" class="aba-conteudo ativa">
+            
             <div class="card">
-                <h3>Cadastrar Novo Chaveiro</h3>
+                <h3>📂 Gerenciar Sessões (Categorias)</h3>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="nova-sessao-nome" placeholder="Ex: Chaveiros de Resina">
+                    <button class="btn-salvar" style="margin-top:0; width:auto; padding: 10px 20px;" onclick="criarSessao()">Criar</button>
+                </div>
+                <div id="msg-sessao" style="font-size:13px; margin-top:5px; color:var(--primaria);"></div>
+                <div class="lista-sessoes" id="container-sessoes">Carregando sessões...</div>
+            </div>
+
+            <div class="card">
+                <h3>Cadastrar Novo Produto</h3>
                 <form id="form-loja">
-                    <div class="form-grupo"><label>Nome:</label><input type="text" id="loja-nome" placeholder="Ex: Chaveiro Borboleta" required></div>
+                    <div class="form-grupo">
+                        <label>Sessão/Categoria:</label>
+                        <select id="loja-sessao" required>
+                            <option value="">Selecione uma sessão...</option>
+                        </select>
+                    </div>
+                    <div class="form-grupo"><label>Nome do Produto:</label><input type="text" id="loja-nome" placeholder="Ex: Chaveiro Borboleta" required></div>
                     <div class="form-grupo"><label>Preço:</label><input type="text" id="loja-preco" placeholder="Ex: R$ 45,00" required></div>
                     <div class="form-grupo"><label>Foto:</label><input type="file" id="loja-foto" accept="image/*" required></div>
                     <button type="submit" class="btn-salvar" id="btn-envio-loja">Salvar na Vitrine</button>
@@ -93,7 +117,7 @@
                 <div id="msg-loja" style="margin-top:10px; font-weight:bold; font-size:14px;"></div>
             </div>
             <div class="lista-itens">
-                <h4 style="text-align:center; color: var(--primaria);">Itens Atuais na Loja</h4>
+                <h4 style="text-align:center; color: var(--primaria); margin-bottom:15px;">Itens Atuais na Loja</h4>
                 <div id="container-loja">Carregando...</div>
             </div>
         </div>
@@ -109,7 +133,7 @@
                 <div id="msg-port" style="margin-top:10px; font-weight:bold; font-size:14px;"></div>
             </div>
             <div class="lista-itens">
-                <h4 style="text-align:center; color: var(--secundaria);">Fotos na Galeria</h4>
+                <h4 style="text-align:center; color: var(--secundaria); margin-bottom:15px;">Fotos na Galeria</h4>
                 <div id="container-port">Carregando...</div>
             </div>
         </div>
@@ -118,52 +142,85 @@
 
     <script>
         const API_BASE = "https://back-mariposa.onrender.com/api";
-        let TOKEN = ""; // Crachá JWT
+        let TOKEN = ""; 
+        let SESSOES_ATUAIS = []; // Memória para o painel lembrar das sessões
 
-        // 1. LOGIN COM TOKEN
         async function fazerLogin() {
             const senha = document.getElementById('input-senha').value;
             const msg = document.getElementById('msg-login');
-            const btn = document.getElementById('btn-login');
-
             if(!senha) return;
             msg.innerText = "Validando crachá... 🛡️";
             
             try {
                 const res = await fetch(`${API_BASE}/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ senha })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ senha })
                 });
-
                 const dados = await res.json();
 
                 if (res.ok) {
                     TOKEN = dados.token;
                     document.getElementById('tela-login').style.display = 'none';
                     document.getElementById('painel-conteudo').style.display = 'flex';
-                    atualizarListas();
+                    await atualizarSessoes(); 
+                    atualizarListas();  
                 } else {
-                    msg.style.color = "red";
-                    msg.innerText = dados.erro || "Senha incorreta!";
+                    msg.style.color = "red"; msg.innerText = dados.erro || "Senha incorreta!";
                 }
-            } catch (err) {
-                msg.innerText = "Servidor dormindo... Tente de novo em 30s! 😴";
-            }
+            } catch (err) { msg.innerText = "Servidor dormindo... Tente de novo em 30s! 😴"; }
         }
 
-        // 2. TROCAR ABAS
         function trocarAba(aba) {
             document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativa'));
             document.querySelectorAll('.btn-aba').forEach(b => b.classList.remove('ativa'));
-            
             document.getElementById(`aba-${aba}`).classList.add('ativa');
             const btn = document.getElementById(`aba-${aba}-btn`);
             btn.classList.add('ativa');
             if(aba === 'portfolio') btn.classList.add('btn-aba-port');
         }
 
-        // 3. COMPRESSOR E ENVIO (COM TOKEN)
+        async function atualizarSessoes() {
+            try {
+                const res = await fetch(`${API_BASE}/sessoes`);
+                SESSOES_ATUAIS = await res.json();
+                
+                const container = document.getElementById('container-sessoes');
+                const select = document.getElementById('loja-sessao');
+                
+                container.innerHTML = SESSOES_ATUAIS.length ? "" : "Nenhuma sessão criada.";
+                select.innerHTML = '<option value="">Selecione uma sessão...</option>';
+
+                SESSOES_ATUAIS.forEach(s => {
+                    container.innerHTML += `<div class="badge-sessao">${s.nome} <span onclick="excluirSessao('${s._id}', '${s.nome}')">✖</span></div>`;
+                    select.innerHTML += `<option value="${s.nome}">${s.nome}</option>`;
+                });
+            } catch (err) { console.log(err); }
+        }
+
+        async function criarSessao() {
+            const nomeInput = document.getElementById('nova-sessao-nome');
+            const nome = nomeInput.value.trim();
+            if(!nome) return;
+
+            await fetch(`${API_BASE}/sessoes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
+                body: JSON.stringify({ nome })
+            });
+            nomeInput.value = "";
+            await atualizarSessoes();
+            atualizarListas();
+        }
+
+        async function excluirSessao(id, nome) {
+            if(!confirm(`ATENÇÃO! Apagar a sessão "${nome}" vai apagar TODOS os produtos dentro dela. Tem certeza?`)) return;
+            
+            await fetch(`${API_BASE}/sessoes/${id}`, {
+                method: 'DELETE', headers: { 'Authorization': `Bearer ${TOKEN}` }
+            });
+            await atualizarSessoes();
+            atualizarListas(); 
+        }
+
         function enviarDados(arquivo, url, dados, btn, msgElemento, callback) {
             btn.innerText = "Processando foto... 📸";
             const leitor = new FileReader();
@@ -185,25 +242,18 @@
                     try {
                         const res = await fetch(url, {
                             method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${TOKEN}` // Crachá aqui!
-                            },
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
                             body: JSON.stringify(dados)
                         });
                         if(res.ok) {
-                            msgElemento.innerHTML = "✅ Sucesso!";
-                            callback();
-                        } else {
-                            msgElemento.innerHTML = "❌ Erro de permissão.";
-                        }
+                            msgElemento.innerHTML = "✅ Sucesso!"; callback();
+                        } else { msgElemento.innerHTML = "❌ Erro de permissão."; }
                     } catch (err) { msgElemento.innerHTML = "❌ Erro de conexão."; }
                     finally { btn.innerText = "Salvar"; }
                 };
             };
         }
 
-        // 4. LISTAGEM E EXCLUSÃO
         async function atualizarListas() {
             carregarItens(`${API_BASE}/produtos`, 'container-loja', true);
             carregarItens(`${API_BASE}/portfolio`, 'container-port', false);
@@ -216,6 +266,13 @@
             container.innerHTML = itens.length ? "" : "Nada cadastrado ainda.";
             
             itens.forEach(item => {
+                
+                // Monta as opções de sessão para o select de Mover
+                let opcoesSessao = `<option value="">Sem categoria</option>`;
+                SESSOES_ATUAIS.forEach(s => {
+                    opcoesSessao += `<option value="${s.nome}" ${item.sessao === s.nome ? 'selected' : ''}>${s.nome}</option>`;
+                });
+
                 const div = document.createElement('div');
                 div.className = 'item';
                 div.innerHTML = `
@@ -223,7 +280,12 @@
                         <img src="${item.imagem}">
                         <div class="item-text">
                             <h4>${ehLoja ? item.nome : item.titulo}</h4>
-                            ${ehLoja ? `<p>${item.preco}</p>` : ""}
+                            ${ehLoja ? `<p>${item.preco}</p>
+                                        <div class="box-mover">
+                                            <select id="select-mover-${item._id}">${opcoesSessao}</select>
+                                            <button class="btn-mover" onclick="moverProduto('${item._id}')">Mover</button>
+                                        </div>` 
+                                      : ""}
                         </div>
                     </div>
                     <button class="btn-excluir" onclick="excluir('${item._id}', '${url}', '${idContainer}', ${ehLoja})">Excluir</button>
@@ -232,20 +294,38 @@
             });
         }
 
+        // --- FUNÇÃO PARA SALVAR A NOVA SESSÃO DO PRODUTO ---
+        async function moverProduto(id) {
+            const novaSessao = document.getElementById(`select-mover-${id}`).value;
+            
+            try {
+                const res = await fetch(`${API_BASE}/produtos/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
+                    body: JSON.stringify({ sessao: novaSessao })
+                });
+                
+                if(res.ok) {
+                    alert("✅ Produto movido com sucesso!");
+                    atualizarListas();
+                } else { alert("❌ Erro ao mover produto."); }
+            } catch(err) { alert("❌ Erro de conexão com o servidor."); }
+        }
+
         async function excluir(id, url, idContainer, ehLoja) {
             if(!confirm("Deseja apagar este item?")) return;
-            await fetch(`${url}/${id}`, { 
-                method: 'DELETE', 
-                headers: { 'Authorization': `Bearer ${TOKEN}` } 
-            });
+            await fetch(`${url}/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${TOKEN}` } });
             carregarItens(url, idContainer, ehLoja);
         }
 
-        // EVENTOS DOS FORMULÁRIOS
         document.getElementById('form-loja').onsubmit = (e) => {
             e.preventDefault();
             enviarDados(document.getElementById('loja-foto').files[0], `${API_BASE}/produtos`, 
-            { nome: document.getElementById('loja-nome').value, preco: document.getElementById('loja-preco').value },
+            { 
+                nome: document.getElementById('loja-nome').value, 
+                preco: document.getElementById('loja-preco').value,
+                sessao: document.getElementById('loja-sessao').value 
+            },
             document.getElementById('btn-envio-loja'), document.getElementById('msg-loja'), () => {
                 document.getElementById('form-loja').reset(); carregarItens(`${API_BASE}/produtos`, 'container-loja', true);
             });
