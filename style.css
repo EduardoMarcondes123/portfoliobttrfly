@@ -287,3 +287,14 @@ body.dark-mode .btn-filtro:hover {
     display: block;
     margin-bottom: 5px;
 }
+
+/* Efeito na foto do produto para mostrar que é clicável */
+.img-produto-clicavel {
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.img-produto-clicavel:hover {
+    transform: scale(1.03);
+    opacity: 0.9;
+}
