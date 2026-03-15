@@ -110,3 +110,14 @@ app.delete('/api/portfolio/:id', verificarToken, async (req, res) => {
 
 const PORTA = process.env.PORT || 3000;
 app.listen(PORTA, () => console.log(`🚀 Sistema Full-Blindado rodando!`));
+
+// Pega o input onde ela digita a senha
+const inputSenha = document.getElementById("senha-admin"); 
+
+inputSenha.addEventListener("keypress", function(evento) {
+    // Verifica se a tecla apertada foi o Enter
+    if (evento.key === "Enter") {
+        evento.preventDefault(); // Evita que a página recarregue do nada
+        document.getElementById("btn-entrar").click(); // "Clica" no botão de login automaticamente
+    }
+});

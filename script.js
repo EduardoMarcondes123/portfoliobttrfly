@@ -4,7 +4,7 @@
 const API_BASE = "https://back-mariposa.onrender.com/api";
 const API_PORTFOLIO = `${API_BASE}/portfolio`;
 const API_PRODUTOS = `${API_BASE}/produtos`;
-const WHATSAPP_LOJA = "5511918491312"; // Seu WhatsApp certinho aqui!
+const WHATSAPP_LOJA = "5511918491312"; 
 
 const modal = document.getElementById("modal-container");
 const modalImg = document.getElementById("img-ampliada");
@@ -15,13 +15,19 @@ let indiceAtual = 0;
 let TODOS_OS_PRODUTOS = []; 
 
 // ==========================================
-// 2. NAVEGAÇÃO ENTRE ABAS
+// 2. NAVEGAÇÃO ENTRE ABAS (COM BOTÃO VOLTAR DO CELULAR)
 // ==========================================
-function abrirAba(nomeAba) {
+// O "salvarNoHistorico" evita que o site entre num loop infinito quando o usuário clica em "Voltar"
+function abrirAba(nomeAba, salvarNoHistorico = true) {
     document.querySelectorAll('.aba').forEach(aba => aba.classList.remove('ativa'));
     const alvo = document.getElementById('aba-' + nomeAba);
     if (alvo) alvo.classList.add('ativa');
     window.scrollTo(0, 0);
+
+    // Salva a aba no histórico do celular/navegador
+    if (salvarNoHistorico) {
+        history.pushState({ aba: nomeAba }, "", "#" + nomeAba);
+    }
 }
 
 // ==========================================
@@ -48,7 +54,6 @@ async function carregarPortfolioDoBanco() {
             grid.appendChild(item);
         });
 
-        // Chama a função para ativar o clique nas fotos do portfólio
         configurarModalPortfolio();
 
     } catch (error) {
@@ -56,7 +61,6 @@ async function carregarPortfolioDoBanco() {
     }
 }
 
-// Carrega as Sessões e cria os botões de filtro na aba Loja
 async function carregarSessoes() {
     try {
         const res = await fetch(`${API_BASE}/sessoes`);
@@ -70,26 +74,22 @@ async function carregarSessoes() {
     } catch (err) { console.log(err); }
 }
 
-// Busca todos os produtos do banco de dados
 async function carregarProdutosLoja() {
     try {
         const res = await fetch(API_PRODUTOS);
         TODOS_OS_PRODUTOS = await res.json();
-        filtrarProdutos('Todos'); // Assim que baixar, mostra todos na tela!
+        filtrarProdutos('Todos'); 
     } catch (err) {
         document.getElementById('grid-produtos').innerHTML = "<p style='width:100%;text-align:center;'>A lojinha está dormindo... 😴</p>";
     }
 }
 
-// O Filtro Mágico da Vitrine
 function filtrarProdutos(categoria) {
-    // Muda a cor do botão clicado
     document.querySelectorAll('.btn-filtro').forEach(btn => {
         if(btn.innerText === categoria) btn.classList.add('ativo');
         else btn.classList.remove('ativo');
     });
 
-    // Filtra a lista de produtos
     let filtrados = categoria === 'Todos' ? TODOS_OS_PRODUTOS : TODOS_OS_PRODUTOS.filter(p => p.sessao === categoria);
     
     const grid = document.getElementById('grid-produtos');
@@ -101,7 +101,6 @@ function filtrarProdutos(categoria) {
         return;
     }
 
-    // Pinta os produtos na tela
     filtrados.forEach(p => {
         const msgZap = encodeURIComponent(`Oii! Vi no site e gostaria de encomendar: ${p.nome} (${p.preco}).`);
         const linkZap = `https://wa.me/${WHATSAPP_LOJA}?text=${msgZap}`;
@@ -125,28 +124,39 @@ function filtrarProdutos(categoria) {
 }
 
 // ==========================================
-// 4. LÓGICA DO MODAL (GALERIA E PRODUTOS)
+// 4. LÓGICA DO MODAL (TECLADO E CELULAR)
 // ==========================================
 
-// Configura o clique nas fotos do PORTFÓLIO (Mostra as setas < >)
+function abrirModalComHistorico() {
+    modal.style.display = "flex";
+    themeToggle.style.visibility = 'hidden';
+    // Adiciona o modal no histórico do celular para o botão "Voltar" funcionar
+    history.pushState({ modalAberto: true }, "", "#foto");
+}
+
+function fecharModal(voltarHistorico = true) {
+    modal.style.display = "none";
+    themeToggle.style.visibility = 'visible';
+    // Se a gente fechou no 'X', limpa o histórico pra não bugar o botão do celular depois
+    if (voltarHistorico && history.state && history.state.modalAberto) {
+        history.back();
+    }
+}
+
 function configurarModalPortfolio() {
     imagens = document.querySelectorAll(".gallery-item img");
     
     imagens.forEach((img, index) => {
         img.onclick = function() {
-            modal.style.display = "flex";
-            themeToggle.style.visibility = 'hidden';
             modalImg.src = this.src;
             captionText.innerHTML = this.alt;
             indiceAtual = index;
-            
-            // Garante que as setinhas apareçam no portfólio
             document.querySelectorAll('.nav-button').forEach(btn => btn.style.display = 'block');
+            abrirModalComHistorico();
         }
     });
 }
 
-// Navegar entre as fotos do portfólio
 function mudarImagem(direcao) {
     if (imagens.length === 0) return;
     indiceAtual += direcao;
@@ -156,57 +166,77 @@ function mudarImagem(direcao) {
     captionText.innerHTML = imagens[indiceAtual].alt;
 }
 
-// Configura o clique nas fotos dos PRODUTOS (Esconde as setas)
 function abrirFotoProduto(imagemSrc, nomeProduto) {
     modalImg.src = imagemSrc;
     captionText.innerHTML = nomeProduto;
-    
-    // Esconde as setinhas porque o produto é uma foto só
     document.querySelectorAll('.nav-button').forEach(btn => btn.style.display = 'none');
-    
-    modal.style.display = 'flex'; 
-    themeToggle.style.visibility = 'hidden';
+    abrirModalComHistorico();
 }
 
-// Fechar Modal (clicando no botão X)
-document.querySelector(".close-button").onclick = () => {
-    modal.style.display = "none";
-    themeToggle.style.visibility = 'visible';
-};
+// Fechar no X
+document.querySelector(".close-button").onclick = () => fecharModal(true);
 
-// Fechar Modal (clicando no fundo escuro)
+// Fechar clicando no fundo escuro
 window.onclick = (e) => { 
-    if (e.target == modal) {
-        modal.style.display = "none";
-        themeToggle.style.visibility = 'visible';
-    }
+    if (e.target == modal) fecharModal(true);
 }
 
 // ==========================================
-// 5. INICIALIZAÇÃO DA PÁGINA E BLINDAGEM
+// 5. INICIALIZAÇÃO, BLINDAGEM E EVENTOS (UX)
 // ==========================================
 document.addEventListener("DOMContentLoaded", function() {
-    // Dá a largada nas buscas do banco de dados!
+    // Registra a home inicial no histórico pra navegação não se perder
+    history.replaceState({ aba: 'home' }, "", "#home");
+
     carregarSessoes();
     carregarProdutosLoja();
     carregarPortfolioDoBanco();
 
-    // Controle do Dark Mode
     themeToggle.onclick = () => {
         document.body.classList.toggle("dark-mode");
         themeToggle.innerHTML = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
     };
 });
 
-// Blindagem de Segurança (DevSecOps)
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('dragstart', e => e.preventDefault());
+// A MÁGICA DO BOTÃO "VOLTAR" DO CELULAR
+window.addEventListener('popstate', function(event) {
+    // 1. Se o modal da foto estiver aberto, apenas fecha ele!
+    if (modal.style.display === "flex") {
+        fecharModal(false); // false pra não dar conflito no histórico
+        return; 
+    }
+
+    // 2. Se mudou de aba, volta pra aba anterior!
+    if (event.state && event.state.aba) {
+        abrirAba(event.state.aba, false);
+    } else {
+        abrirAba('home', false);
+    }
+});
+
+// A MÁGICA DO TECLADO DO PC (ESC e Setinhas)
 document.addEventListener('keydown', function(e) {
+    // Se o modal estiver aberto, controla com o teclado:
+    if (modal.style.display === "flex") {
+        if (e.key === "Escape") {
+            fecharModal(true);
+        } else if (e.key === "ArrowRight") {
+            // Só passa pro lado se as setinhas não estiverem escondidas (ou seja, se for o portfólio)
+            if (document.querySelector('.nav-button.next').style.display !== 'none') mudarImagem(1);
+        } else if (e.key === "ArrowLeft") {
+            if (document.querySelector('.nav-button.prev').style.display !== 'none') mudarImagem(-1);
+        }
+    }
+
+    // A BLINDAGEM CONTRA COPIADORES CONTINUA AQUI:
     if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
     if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) e.preventDefault();
     if (e.ctrlKey && (e.key === 'U' || e.key === 'S')) e.preventDefault();
     if ((e.ctrlKey || e.metaKey) && e.key === 'P') e.preventDefault();
 });
+
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
 document.addEventListener('copy', function(e) {
     e.clipboardData.setData('text/plain', 'As artes deste site são protegidas. Apoie o artista independente!');
     e.preventDefault();
