@@ -155,3 +155,76 @@ document.addEventListener('copy', function(e) {
     e.preventDefault();
 });
 document.addEventListener('cut', e => e.preventDefault());
+
+const API_BASE = "https://back-mariposa.onrender.com/api";
+let TODOS_OS_PRODUTOS = []; 
+const WHATSAPP_LOJA = "5511999999999"; // Lembre de colocar o numero dela aqui!
+
+// 1. Carrega as Sessões e cria os botões
+async function carregarSessoes() {
+    try {
+        const res = await fetch(`${API_BASE}/sessoes`);
+        const sessoes = await res.json();
+        const menu = document.getElementById('menu-filtros');
+        sessoes.forEach(s => {
+            menu.innerHTML += `<button class="btn-filtro" onclick="filtrarProdutos('${s.nome}')">${s.nome}</button>`;
+        });
+    } catch (err) { console.log(err); }
+}
+
+// 2. Busca todos os produtos do banco de dados
+async function carregarProdutosLoja() {
+    try {
+        const res = await fetch(`${API_BASE}/produtos`);
+        TODOS_OS_PRODUTOS = await res.json();
+        filtrarProdutos('Todos'); // Assim que baixar, mostra todos!
+    } catch (err) {
+        document.getElementById('grid-produtos').innerHTML = "<p style='width:100%;text-align:center;'>A lojinha está dormindo... 😴</p>";
+    }
+}
+
+// 3. A mágica de esconder e mostrar (O Filtro)
+function filtrarProdutos(categoria) {
+    // Muda a cor do botão clicado
+    document.querySelectorAll('.btn-filtro').forEach(btn => {
+        if(btn.innerText === categoria) btn.classList.add('ativo');
+        else btn.classList.remove('ativo');
+    });
+
+    // Filtra a lista
+    let filtrados = categoria === 'Todos' ? TODOS_OS_PRODUTOS : TODOS_OS_PRODUTOS.filter(p => p.sessao === categoria);
+    
+    const grid = document.getElementById('grid-produtos');
+    grid.innerHTML = ""; // Limpa a vitrine
+    
+    if(filtrados.length === 0) {
+        grid.innerHTML = "<p style='width:100%; text-align:center; grid-column: 1/-1;'>Nenhum item nesta categoria ainda. 🦋</p>";
+        return;
+    }
+
+    // Pinta os produtos na tela
+    filtrados.forEach(p => {
+        const msgZap = encodeURIComponent(`Oii! Gostaria de encomendar: ${p.nome} (${p.preco}).`);
+        const linkZap = `https://wa.me/${WHATSAPP_LOJA}?text=${msgZap}`;
+
+        grid.innerHTML += `
+            <div class="produto-card">
+                <img src="${p.imagem}" alt="${p.nome}">
+                <div style="padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between;">
+                    <div>
+                        <span class="etiqueta-sessao">${p.sessao || 'Loja'}</span>
+                        <h3 style="font-size: 16px; margin: 0 0 10px;">${p.nome}</h3>
+                    </div>
+                    <div>
+                        <p style="color: #Fa7f72; font-weight: bold; font-size: 18px; margin: 0 0 15px;">${p.preco}</p>
+                        <a href="${linkZap}" target="_blank" class="btn-comprar">Eu Quero! 🛍️</a>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+// Roda essas funções pra lojinha já abrir carregada!
+carregarSessoes();
+carregarProdutosLoja();

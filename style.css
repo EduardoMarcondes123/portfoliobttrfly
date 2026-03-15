@@ -227,3 +227,63 @@ body.dark-mode .btn-instagram:hover { background-color: #ffb7cd; color: #1a1a1a 
 .titulo-secao { font-size: 2.5rem; color: #FF69B4; margin-bottom: 20px; text-align: center; }
 
 footer { width: 100%; background-color: #222; color: #fff; text-align: center; padding: 20px 0; margin-top: auto; font-size: 0.9rem; }
+
+/* ==========================================
+   FILTROS DA LOJINHA (SESSÕES)
+   ========================================== */
+.filtros {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.btn-filtro {
+    background: transparent;
+    color: #fd6492;
+    border: 2px solid #fd6492;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-filtro:hover {
+    background: #ffb7cd;
+    color: white;
+}
+
+.btn-filtro.ativo {
+    background: #fd6492;
+    color: white;
+    box-shadow: 0 4px 10px rgba(253, 100, 146, 0.3);
+}
+
+/* Deixa os botões bonitos no Modo Escuro */
+body.dark-mode .btn-filtro {
+    color: #ffb7cd;
+    border-color: #ffb7cd;
+}
+
+body.dark-mode .btn-filtro.ativo {
+    background: #ffb7cd;
+    color: #1a1a1a;
+}
+
+body.dark-mode .btn-filtro:hover {
+    background: #fd6492;
+    color: white;
+}
+
+/* Etiqueta pequena do nome da sessão em cima do produto */
+.etiqueta-sessao {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+}
