@@ -3,154 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atelier Mariposa 🦋</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="no-referrer">
+
+    <title>Butterfly Drawing | Portfólio & Loja</title>
+    <link rel="icon" type="image/png" href="img/favicon.png?v=1">
+
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
+    <button id="theme-toggle">🌙</button>
 
-    <header class="cabecalho-site">
-        <h1>Atelier Mariposa 🦋</h1>
-        <p>Arte, Resina e Encanto</p>
-    </header>
+    <div id="aba-home" class="aba ativa">
+        <header class="hero">
+            <h1>Butterfly Drawing</h1>
+            <p>Ilustradora & Artista Visual</p>
+            <div class="links">
+                <button onclick="abrirAba('portfolio')" class="btn-menu">Ver Portfólio</button>
+                <button onclick="abrirAba('loja')" class="btn-loja">Atelier Mariposa</button>
+                <button onclick="abrirAba('sobre')" class="btn-sobre">
+                    <span class="icon">🦋</span> Sobre Mim
+                </button>
+                <a href="mailto:bttrflydrawing2022@gmail.com">Entrar em contato</a>
+            </div>
+        </header>
+    </div>
 
-    <main class="container">
-        
-        <section id="loja">
-            <h2 class="titulo-secao">Nossa Vitrine</h2>
-            
+    <div id="aba-portfolio" class="aba">
+        <div class="container-aba">
+            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+            <h2 class="titulo-secao">Meu Portfólio</h2>
+
+            <div class="container-btn-ig">
+                <a href="https://instagram.com/bttrfly_drawing" target="_blank" class="btn-instagram">
+                    📸 Siga minhas artes no Instagram
+                </a>
+            </div>
+
+            <main class="gallery-container">
+                <div class="gallery" id="grid-portfolio">
+                    <p style="text-align: center; width: 100%;">Carregando as artes... 🎨🦋</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="aba-loja" class="aba">
+        <div class="container-aba">
+            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+            <h2 class="titulo-secao">Atelier Mariposa</h2>
+
+            <div class="container-btn-ig">
+                <a href="https://instagram.com/atelier_mariposa._" target="_blank" class="btn-instagram">
+                    🛍️ Acompanhe as novidades no Instagram
+                </a>
+            </div>
+
             <div class="filtros" id="menu-filtros">
                 <button class="btn-filtro ativo" onclick="filtrarProdutos('Todos')">Todos</button>
+            </div>
+            <div class="grid-produtos" id="grid-produtos">
+                <p style="text-align: center; width: 100%; grid-column: 1/-1;">Carregando novidades... 🦋</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="aba-sobre" class="aba">
+        <div class="container-aba">
+            <button onclick="abrirAba('home')" class="btn-voltar">← Voltar</button>
+            <h2 class="titulo-secao">Sobre Mim</h2>
+            <div class="sobre-container">
+                <img src="img/perfil.jpeg" alt="Minha Foto" class="foto-perfil">
+                <div class="sobre-texto">
+                    <h3>Olá! Bem-vinda(o) ao meu universo! 🦋</h3>
+                    <p>Sou a artista por trás da Butterfly Drawing. Sou uma ilustradora e artista visual apaixonada por transformar sentimentos e ideias em arte.</p>
+                    <p>Meu trabalho é inspirado na natureza, nas emoções e na delicadeza das formas. Além das ilustrações digitais e tradicionais, também crio bijuterias artesanais exclusivas com muito carinho, que você pode encontrar na minha lojinha.</p>
+                    <p>Obrigada por apoiar a arte independente!</p>
                 </div>
-
-            <div class="grid-produtos" id="vitrine-produtos">
-                <p style="text-align:center; width:100%;">Carregando as lindezas... ✨</p>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <hr class="divisoria">
-
-        <section id="portfolio">
-            <h2 class="titulo-secao">Galeria de Artes</h2>
-            <div class="grid-portfolio" id="galeria-portfolio">
-                <p style="text-align:center; width:100%;">Buscando inspirações... ✨</p>
-            </div>
-        </section>
-
-    </main>
+    <div id="modal-container" class="modal">
+        <span class="close-button">&times;</span>
+        <button class="nav-button prev" onclick="mudarImagem(-1)">&lt;</button>
+        <img class="modal-content" id="img-ampliada">
+        <button class="nav-button next" onclick="mudarImagem(1)">&gt;</button>
+        <div id="caption"></div>
+    </div>
 
     <footer>
-        <p>© 2026 Atelier Mariposa. Feito com 💖 e código.</p>
+        <p>&copy; 2026 Butterfly Drawing. Todos os direitos reservados.</p>
     </footer>
 
-    <script>
-        const API_BASE = "https://back-mariposa.onrender.com/api";
-        let TODOS_OS_PRODUTOS = []; // Vamos guardar todos aqui para o filtro ficar super rápido!
-
-        // Coloque o número do WhatsApp da loja aqui (Código do país + DDD + Número. Sem espaços!)
-        const WHATSAPP_LOJA = "5511999999999"; 
-
-        async function carregarSite() {
-            await carregarSessoes();
-            await carregarProdutos();
-            await carregarPortfolio();
-        }
-
-        // 1. CARREGAR OS BOTÕES DE CATEGORIA
-        async function carregarSessoes() {
-            try {
-                const res = await fetch(`${API_BASE}/sessoes`);
-                const sessoes = await res.json();
-                const menu = document.getElementById('menu-filtros');
-                
-                sessoes.forEach(sessao => {
-                    menu.innerHTML += `<button class="btn-filtro" onclick="filtrarProdutos('${sessao.nome}')">${sessao.nome}</button>`;
-                });
-            } catch (err) { console.log("Erro ao carregar sessões", err); }
-        }
-
-        // 2. CARREGAR OS PRODUTOS
-        async function carregarProdutos() {
-            try {
-                const res = await fetch(`${API_BASE}/produtos`);
-                TODOS_OS_PRODUTOS = await res.json();
-                renderizarProdutos(TODOS_OS_PRODUTOS); // Mostra tudo de primeira
-            } catch (err) { 
-                document.getElementById('vitrine-produtos').innerHTML = "<p>Ops! A vitrine está dormindo. 😴</p>";
-            }
-        }
-
-        // 3. A MÁGICA DO FILTRO DE CATEGORIAS
-        function filtrarProdutos(nomeDaSessao) {
-            // Primeiro, atualiza a cor do botão selecionado
-            const botoes = document.querySelectorAll('.btn-filtro');
-            botoes.forEach(btn => {
-                if (btn.innerText === nomeDaSessao) btn.classList.add('ativo');
-                else btn.classList.remove('ativo');
-            });
-
-            // Depois, filtra a lista
-            let produtosFiltrados;
-            if (nomeDaSessao === 'Todos') {
-                produtosFiltrados = TODOS_OS_PRODUTOS;
-            } else {
-                produtosFiltrados = TODOS_OS_PRODUTOS.filter(produto => produto.sessao === nomeDaSessao);
-            }
-
-            renderizarProdutos(produtosFiltrados);
-        }
-
-        // 4. DESENHAR OS PRODUTOS NA TELA
-        function renderizarProdutos(lista) {
-            const vitrine = document.getElementById('vitrine-produtos');
-            vitrine.innerHTML = ""; // Limpa a vitrine
-
-            if (lista.length === 0) {
-                vitrine.innerHTML = "<p style='text-align:center; width:100%; color:#888;'>Nenhum produto nesta categoria no momento. 🦋</p>";
-                return;
-            }
-
-            lista.forEach(produto => {
-                const msgZap = encodeURIComponent(`Olá! Gostaria de encomendar o produto: ${produto.nome} (${produto.preco}).`);
-                const linkZap = `https://wa.me/${WHATSAPP_LOJA}?text=${msgZap}`;
-
-                vitrine.innerHTML += `
-                    <div class="card-produto">
-                        <img src="${produto.imagem}" alt="${produto.nome}">
-                        <div class="card-info">
-                            <span class="etiqueta-sessao">${produto.sessao || 'Loja'}</span>
-                            <h3>${produto.nome}</h3>
-                            <p class="preco">${produto.preco}</p>
-                            <a href="${linkZap}" target="_blank" class="btn-comprar">Eu Quero! 🛍️</a>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // 5. CARREGAR A GALERIA DE ARTE
-        async function carregarPortfolio() {
-            try {
-                const res = await fetch(`${API_BASE}/portfolio`);
-                const artes = await res.json();
-                const galeria = document.getElementById('galeria-portfolio');
-                galeria.innerHTML = "";
-
-                if(artes.length === 0) galeria.innerHTML = "<p>Galeria sendo preparada... 🎨</p>";
-
-                artes.forEach(arte => {
-                    galeria.innerHTML += `
-                        <div class="card-arte">
-                            <img src="${arte.imagem}" alt="${arte.titulo}">
-                            <div class="overlay-arte"><span>${arte.titulo}</span></div>
-                        </div>
-                    `;
-                });
-            } catch (err) { console.log("Erro na galeria", err); }
-        }
-
-        // Dá a largada assim que o site abre!
-        carregarSite();
-    </script>
+    <script src="script.js?v=3"></script>
 </body>
 </html>
